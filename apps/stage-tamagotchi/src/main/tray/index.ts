@@ -34,8 +34,11 @@ import { toggleWindowShow } from '../windows/shared/window'
 /** 语音服务（sidecar）最近一次探测到的状态，菜单构建时同步读取 */
 let sidecarUp: Record<number, boolean> = {}
 
-const RECOMMENDED_WIDTH = 958
-const RECOMMENDED_HEIGHT = 768
+/** Live2D 阿尔比恩（命中区校准就是按它的推荐尺寸来的） */
+const LIVE2D_ALBION_MODEL_ID = 'preset-live2d-albion'
+
+const RECOMMENDED_WIDTH = 964
+const RECOMMENDED_HEIGHT = 799
 /** 推荐窗口的屏幕位置（"对齐到 → 推荐"用） */
 const RECOMMENDED_X = 1
 const RECOMMENDED_Y = 6
@@ -50,6 +53,18 @@ const RECOMMENDED_DEFAULT = {
   position: '{"x":-1,"y":46}',
 }
 interface RecommendedView { width: number, height: number, x: number, y: number, scale: string, position: string }
+
+/** Spine 3.8 阿尔比恩（晨光）：它自己的一套推荐布局，跟 Live2D 那套分开存（指挥官 2026-09-17） */
+const SPINE_ALBION_MODEL_ID = 'preset-spine38-albion'
+type RecommendedKind = 'live2d' | 'spine'
+const RECOMMENDED_SPINE_DEFAULT: RecommendedView = {
+  width: 963,
+  height: 803,
+  x: -2,
+  y: 2,
+  scale: '0.7026',
+  position: '{"x":788.5999755859375,"y":1635.8000793457031}',
+}
 /** 顺高 / 半高 这两个选项沿用原来的竖版比例（450:600），不要跟着推荐尺寸变大 */
 const ASPECT_RATIO = 450 / 600
 
@@ -145,15 +160,33 @@ export function setupTray(params: {
       applyWindowSize(params.mainWindow, width, height, x, y)
     }
 
-    /** 指挥官定稿的模型视图：缩放 1.3、位置 {x:-1, y:46}（存在渲染进程的 localStorage 里） */
-    function applyRecommendedModelView(scale = RECOMMENDED_DEFAULT.scale, position = RECOMMENDED_DEFAULT.position) {
+    /** 模型视图要写哪几个 localStorage 键：live2d 用 scale+position，spine（晨光）用 scale+x/y */
+    function recommendedModelPairs(kind: RecommendedKind, scale: string, position: string): Array<[string, string]> {
+      if (kind === 'spine') {
+        let p: { x?: number, y?: number } = {}
+        try {
+          p = JSON.parse(position || '{}')
+        }
+        catch {}
+        return [
+          ['settings/spine38/scale', String(scale)],
+          ['settings/spine38/x', String(p.x ?? 0)],
+          ['settings/spine38/y', String(p.y ?? 0)],
+        ]
+      }
+      return [['settings/live2d/scale', String(scale)], ['settings/live2d/position', String(position)]]
+    }
+
+    function applyRecommendedModelView(scale = RECOMMENDED_DEFAULT.scale, position = RECOMMENDED_DEFAULT.position, kind: RecommendedKind = 'live2d') {
+      const pairs = recommendedModelPairs(kind, scale, position)
       params.mainWindow.webContents
         .executeJavaScript(`(() => {
           try {
-            localStorage.setItem('settings/live2d/scale', '${scale}')
-            localStorage.setItem('settings/live2d/position', '${position}')
+            const pairs = ${JSON.stringify(pairs)}
+            for (const [k, v] of pairs)
+              localStorage.setItem(k, v)
             // vueuse 的 useLocalStorage 监听 storage 事件，同窗口写入不会自动触发 → 手工派发一次
-            for (const [k, v] of [['settings/live2d/scale', '${scale}'], ['settings/live2d/position', '${position}']])
+            for (const [k, v] of pairs)
               window.dispatchEvent(new StorageEvent('storage', { key: k, newValue: v, storageArea: localStorage }))
           }
           catch {}
@@ -161,61 +194,99 @@ export function setupTray(params: {
         .catch(() => {})
     }
 
-    /** 推荐布局存这儿（userData 下）；没存过就用内置默认 */
-    const recommendedFile = `${app.getPath('userData')}/recommended-view.json`
-    function readRecommended(): RecommendedView {
+    /**
+     * 推荐布局存这儿（userData 下）；没存过就用内置默认。
+     *  两套分开：live2d = recommended-view.json，spine（晨光）= recommended-view-spine.json
+     */
+    const recommendedFileOf = (kind: RecommendedKind) =>
+      `${app.getPath('userData')}/recommended-view${kind === 'spine' ? '-spine' : ''}.json`
+    const recommendedDefaultOf = (kind: RecommendedKind) =>
+      (kind === 'spine' ? RECOMMENDED_SPINE_DEFAULT : RECOMMENDED_DEFAULT)
+    function readRecommended(kind: RecommendedKind = 'live2d'): RecommendedView {
       try {
-        const raw = JSON.parse(readFileSync(recommendedFile, 'utf8')) as Partial<RecommendedView>
-        return { ...RECOMMENDED_DEFAULT, ...raw }
+        const raw = JSON.parse(readFileSync(recommendedFileOf(kind), 'utf8')) as Partial<RecommendedView>
+        return { ...recommendedDefaultOf(kind), ...raw }
       }
       catch {
-        return { ...RECOMMENDED_DEFAULT }
+        return { ...recommendedDefaultOf(kind) }
       }
     }
 
-    /** 把"此刻的布局"存为推荐：窗口大小/位置取窗口实际值，模型缩放/位置取渲染进程的 localStorage */
-    async function saveCurrentAsRecommended() {
+    /**
+     * 把"此刻的布局"存为推荐：窗口大小/位置取窗口实际值，模型缩放/位置取渲染进程的 localStorage。
+     *  kind='spine' 时存的是 Spine（晨光）那一套：settings/spine38/scale 与 spine38/x|y。
+     */
+    async function saveCurrentAsRecommended(kind: RecommendedKind = 'live2d') {
       const b = params.mainWindow.getBounds()
-      let scale = RECOMMENDED_DEFAULT.scale
-      let position = RECOMMENDED_DEFAULT.position
+      const dft = recommendedDefaultOf(kind)
+      let scale = dft.scale
+      let position = dft.position
       try {
-        const v = await params.mainWindow.webContents.executeJavaScript(
-          `({ scale: localStorage.getItem('settings/live2d/scale'), position: localStorage.getItem('settings/live2d/position') })`,
-        ) as { scale?: string, position?: string } | null
+        const js = kind === 'spine'
+          ? `({ scale: localStorage.getItem('settings/spine38/scale'), x: localStorage.getItem('settings/spine38/x'), y: localStorage.getItem('settings/spine38/y') })`
+          : `({ scale: localStorage.getItem('settings/live2d/scale'), position: localStorage.getItem('settings/live2d/position') })`
+        const v = await params.mainWindow.webContents.executeJavaScript(js) as Record<string, string | null> | null
         if (v?.scale)
           scale = String(v.scale)
-        if (v?.position)
+        if (kind === 'spine')
+          position = JSON.stringify({ x: Number(v?.x ?? 0), y: Number(v?.y ?? 0) })
+        else if (v?.position)
           position = String(v.position)
       }
       catch {}
       const view: RecommendedView = { width: b.width, height: b.height, x: b.x, y: b.y, scale, position }
       try {
-        writeFileSync(recommendedFile, JSON.stringify(view, null, 2), 'utf8')
+        writeFileSync(recommendedFileOf(kind), JSON.stringify(view, null, 2), 'utf8')
       }
       catch (e) {
         console.warn('[tray] 写推荐布局失败', e)
         return
       }
-      const text = `${b.width}×${b.height} @ (${b.x}, ${b.y})　模型 ${scale} / ${position}`
+      const text = `${kind === 'spine' ? '（晨光）' : ''}${b.width}×${b.height} @ (${b.x}, ${b.y})　模型 ${scale} / ${position}`
       console.info('[tray] 已存为推荐：', text)
       try {
         // eslint-disable-next-line ts/no-use-before-define -- 定义在后面，但这段只在菜单点击后执行
-        appTray.displayBalloon({ title: '推荐布局已保存', content: text })
+        appTray.displayBalloon({ title: kind === 'spine' ? '推荐布局（晨光）已保存' : '推荐布局已保存', content: text })
       }
       catch {}
       // eslint-disable-next-line ts/no-use-before-define -- 同上，此刻菜单早已构建完成
       rebuildContextMenu()
     }
 
-    /** 推荐：窗口大小 + 屏幕位置 + 模型缩放/位置 一起恢复 */
-    function applyRecommendedView(withPosition = false) {
-      const rec = readRecommended()
+    /** 推荐：窗口大小 + 屏幕位置 + 模型缩放/位置 一起恢复（按模型种类取各自那套） */
+    function applyRecommendedView(withPosition = false, kind: RecommendedKind = 'live2d') {
+      const rec = readRecommended(kind)
       if (withPosition)
         applyMainWindowSize(rec.width, rec.height, rec.x, rec.y)
       else
         applyMainWindowSize(rec.width, rec.height)
-      applyRecommendedModelView(rec.scale, rec.position)
+      applyRecommendedModelView(rec.scale, rec.position, kind)
     }
+
+    // 指挥官 2026-09-17：Live2D 那个模型一开启就自动套用「推荐」布局。
+    // 交互命中区是按推荐尺寸校准的，窗口大小一变就会偏，所以模型切到它时把窗口拉回推荐尺寸。
+    let lastStageModelId: string | null = null
+    setInterval(async () => {
+      if (isRendererUnavailable(params.mainWindow))
+        return
+      try {
+        const id = await params.mainWindow.webContents.executeJavaScript(
+          `localStorage.getItem('settings/stage/model')`,
+        ) as string | null
+        if (id === lastStageModelId)
+          return
+        lastStageModelId = id
+        if (id === LIVE2D_ALBION_MODEL_ID) {
+          console.info('[tray] 检测到 Live2D 模型已开启，自动套用推荐布局')
+          applyRecommendedView(true, 'live2d')
+        }
+        else if (id === SPINE_ALBION_MODEL_ID) {
+          console.info('[tray] 检测到 Spine（晨光）模型已开启，自动套用推荐布局（晨光）')
+          applyRecommendedView(true, 'spine')
+        }
+      }
+      catch {}
+    }, 2000)
 
     const trayImage = nativeImage.createFromPath(isMacOS ? macOSTrayIcon : icon).resize({ width: 16 })
     trayImage.setTemplateImage(isMacOS)
@@ -228,7 +299,8 @@ export function setupTray(params: {
       }
 
       const mainWindowBounds = params.mainWindow.getBounds()
-      const rec = readRecommended()
+      const rec = readRecommended('live2d')
+      const recSpine = readRecommended('spine')
       const currentDisplay = findDominantDisplayArea(mainWindowBounds, screen.getAllDisplays()) ?? screen.getDisplayMatching(mainWindowBounds)
       const { x: areaX, y: areaY, width: areaWidth, height: areaHeight } = currentDisplay.workArea
       const { width: windowWidth, height: windowHeight } = mainWindowBounds
@@ -248,7 +320,13 @@ export function setupTray(params: {
               label: params.i18n.t('tamagotchi.electron.tray.menu.labels.label.recommended_size'),
               type: 'checkbox',
               checked: isSizeMatch(params.mainWindow, rec.width, rec.height),
-              click: () => applyRecommendedView(),
+              click: () => applyRecommendedView(false, 'live2d'),
+            },
+            {
+              label: '推荐（晨光）',
+              type: 'checkbox',
+              checked: isSizeMatch(params.mainWindow, recSpine.width, recSpine.height),
+              click: () => applyRecommendedView(false, 'spine'),
             },
             {
               label: params.i18n.t('tamagotchi.electron.tray.menu.labels.label.full_height'),
@@ -277,7 +355,13 @@ export function setupTray(params: {
               label: '推荐',
               type: 'checkbox',
               checked: isPositionMatch(params.mainWindow, rec.x, rec.y),
-              click: () => applyRecommendedView(true),
+              click: () => applyRecommendedView(true, 'live2d'),
+            },
+            {
+              label: '推荐（晨光）',
+              type: 'checkbox',
+              checked: isPositionMatch(params.mainWindow, recSpine.x, recSpine.y),
+              click: () => applyRecommendedView(true, 'spine'),
             },
             { type: 'separator' },
             {
@@ -343,7 +427,8 @@ export function setupTray(params: {
           },
         },
         { type: 'separator' },
-        { label: '把当前布局存为推荐', click: () => { void saveCurrentAsRecommended() } },
+        { label: '把当前布局存为推荐', click: () => { void saveCurrentAsRecommended('live2d') } },
+        { label: '把当前布局存为推荐（晨光）', click: () => { void saveCurrentAsRecommended('spine') } },
         {
           label: '语音服务',
           submenu: [
@@ -392,6 +477,17 @@ export function setupTray(params: {
     void refreshSidecar()
 
     rebuildContextMenu()
+
+    // 指挥官 2026-09-17：壳一启动就把字幕窗打开，不用再手动点托盘。
+    // 之后想关还是从托盘那一项关（关掉后这次运行不会再自动弹回来）。
+    if (!params.captionWindow.isVisible())
+      params.captionWindow.toggleVisibility()
+
+    // 指挥官 2026-09-17：消息框（我们自己写的那条小对话条）也一起开。
+    void params.chatboxWindow.isVisible().then((visible) => {
+      if (!visible)
+        void params.chatboxWindow.toggleVisibility()
+    })
 
     const stopLocaleEffect = effect(() => {
       const locale = params.i18n.locale as (() => string | LocaleDetector<any[]> | undefined)

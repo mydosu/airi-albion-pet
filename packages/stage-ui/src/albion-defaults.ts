@@ -31,7 +31,9 @@ export const ALBION_VISION_BASE = (import.meta.env.VITE_ALBION_VISION_BASE as st
 export const ALBION_VISION_MODEL = 'Qwen3VL-4B'
 export const ALBION_VISION_PROVIDER_ID = 'vision-openai-compatible'
 /** 默认形象：我们的 Live2D 预设（见 stores/display-models.ts） */
-export const ALBION_STAGE_MODEL_ID = 'preset-live2d-albion'
+// 默认皮肤 = Spine 3.8 那套（打包版是全新的 localStorage，取的就是这个默认值；
+// 原来是 Live2D，导致打包版启动时不是定稿的 Spine 皮肤）。
+export const ALBION_STAGE_MODEL_ID = 'preset-spine38-albion'
 
 /** 预置的 provider 配置（AIRI 的「服务来源」表） */
 export function albionProviderDefaults(): Record<string, unknown> {

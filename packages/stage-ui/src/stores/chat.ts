@@ -14,6 +14,7 @@ import { nanoid } from 'nanoid'
 import { defineStore, storeToRefs } from 'pinia'
 import { shallowRef, toRaw } from 'vue'
 
+import { eyesDescribeForPrompt } from '../albion-eyes'
 import { getConversationAnalyticsSurface } from '../composables'
 import { activeTurnSpan, startSpan } from '../composables/use-io-tracer'
 import {
@@ -301,7 +302,10 @@ export const useChatStore = defineStore('chat', () => {
     },
     getActiveSessionId: () => activeSessionId.value,
     getActiveProvider: () => activeProvider.value,
-    getSystemPromptSupplement: () => llmToolsetPromptsStore.activeToolsetPrompt,
+    // 阿尔比恩的眼睛：把"我刚看到的屏幕"放进系统提示补充位。
+    // 看不到指挥官时她只能编（"数了数冰箱里的东西"），附上真实观察就不编了；
+    // 走系统提示 ⇒ 界面里看不到、也不会被念出来。
+    getSystemPromptSupplement: () => [llmToolsetPromptsStore.activeToolsetPrompt, eyesDescribeForPrompt()].filter(Boolean).join('\n\n'),
     runtimeContextProviders: [
       createMinecraftContext,
     ],

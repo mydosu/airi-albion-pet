@@ -17,6 +17,8 @@
  */
 import { useLive2dParams } from '@proj-airi/stage-ui-live2d/stores'
 
+import albionInteractionSpec from '../../../apps/stage-tamagotchi/src/renderer/public/albion-interactions.json'
+
 /** 命中区 → 动作：`Group:Name` */
 interface SpecHitArea { Name: string, Id: string, Motion?: string }
 interface SpecChoice { Text?: string, NextMtn?: string, Command?: string }
@@ -50,14 +52,17 @@ export interface InteractionHooks {
 /** 拖动换算系数：包的 Factor≈0.005 时"拖过约 60% 画布高度"给满量程，0.015 时约 20% —— 全是同一个常数推出来的 */
 const DRAG_SCALE = 3333
 
-const WAV_BASE = '/albion-voice/'
+// 打包态是 file:// 协议 —— 根路径 fetch('/albion-voice/x.wav') 读不到（Chromium 拒绝），
+// 所以和 Spine 那边一样，用构建期资产表把 16 条语音收进来（dev/打包态通用）。
+const VOICE_URLS = import.meta.glob('../../../apps/stage-tamagotchi/src/renderer/public/albion-voice/*.wav', { eager: true, query: '?url', import: 'default' }) as Record<string, string>
 
 function wavUrl(sound?: string) {
   if (!sound)
     return undefined
-  // Motions_Tap_0_Sound_0.wav → /albion-voice/tap_0.wav
-  const stem = sound.replace(/^Motions_/, '').replace(/_Sound_0\.wav$/i, '')
-  return `${WAV_BASE}${stem.toLowerCase()}.wav`
+  // Motions_Tap_0_Sound_0.wav → albion-voice/tap_0.wav
+  const stem = sound.replace(/^Motions_/, '').replace(/_Sound_0\.wav$/i, '').toLowerCase()
+  const key = Object.keys(VOICE_URLS).find(k => k.toLowerCase().endsWith(`/${stem}.wav`))
+  return key ? VOICE_URLS[key] : undefined
 }
 
 export async function startAlbionInteractions(hooks: InteractionHooks) {
@@ -73,7 +78,9 @@ export async function startAlbionInteractions(hooks: InteractionHooks) {
 
   let spec: AlbionInteractionSpec
   try {
-    spec = await fetch('/albion-interactions.json').then(r => r.json())
+    // 打包态是 file:// 协议，Chromium 拒绝 fetch(file://) —— 所以改成构建期静态引入
+    // （原来是 fetch('/albion-interactions.json')，只有 dev 能读到）。
+    spec = albionInteractionSpec as unknown as AlbionInteractionSpec
     // 换模型保护：这份规格是阿尔比恩专属的（命中区/参数名都是作者给这个模型起的）。
     // 抽查几个标志性参数，当前模型没有就说明换了别的 Live2D（或换成 Spine）→ 不启用交互层，免得张冠李戴。
     {
@@ -205,15 +212,11 @@ export async function startAlbionInteractions(hooks: InteractionHooks) {
   const box = document.createElement('div')
   box.style.cssText = 'position:fixed;pointer-events:none;z-index:99997;border:2px solid rgba(255,255,255,.9);border-radius:10px;'
     + 'box-shadow:0 0 10px rgba(0,0,0,.25);background:rgba(255,255,255,.10);display:none'
-  const tip = document.createElement('div')
-  tip.style.cssText = 'position:fixed;pointer-events:none;z-index:99998;padding:2px 8px;border-radius:8px;background:rgba(255,255,255,.9);'
-    + 'color:#3a3a3a;font:12px/1.5 system-ui,sans-serif;box-shadow:0 2px 8px rgba(0,0,0,.2);display:none;white-space:nowrap'
-  document.body.append(box, tip)
+  document.body.append(box)
   hideHint()
 
   function hideHint() {
     box.style.display = 'none'
-    tip.style.display = 'none'
   }
 
   /** 命中区在**画面上**的矩形（先把命中区坐标反解回画面，尺寸也按同一比例换算） */
@@ -237,16 +240,6 @@ export async function startAlbionInteractions(hooks: InteractionHooks) {
     return { x: Math.min(...xs), y: Math.min(...ys), w: Math.max(...xs) - Math.min(...xs), h: Math.max(...ys) - Math.min(...ys) }
   }
 
-  function describeArea(name: string) {
-    const ph = paramHits.find(p => p.HitArea === name)
-    if (ph)
-      return `${ph.Name}：${ph.Axis === 0 ? '按住左右' : '按住上下'}拖动`
-    const ha = hitAreaMotion.get(name)
-    if (ha?.Motion)
-      return `${ha.Name}：点一下`
-    return name
-  }
-
   function showHint(name: string) {
     const ha = hitAreaMotion.get(name)
     const r = ha ? screenRect(ha.Id) : null
@@ -257,10 +250,6 @@ export async function startAlbionInteractions(hooks: InteractionHooks) {
     box.style.width = `${Math.round(r.w + 6)}px`
     box.style.height = `${Math.round(r.h + 6)}px`
     box.style.display = 'block'
-    tip.textContent = describeArea(name)
-    tip.style.left = `${Math.round(Math.max(4, Math.min(r.x, window.innerWidth - 180)))}px`
-    tip.style.top = `${Math.round(Math.max(4, r.y - 22))}px`
-    tip.style.display = 'block'
   }
 
   // ---- 应急退出：Esc = 把所有"拖动锁住的参数"恢复默认（相机模式卡住就按它）----

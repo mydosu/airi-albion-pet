@@ -10,8 +10,9 @@ import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { captionGetIsFollowingWindow, captionIsFollowingWindowChanged } from '../../shared/eventa'
 import { useCaptionItems } from '../composables/useCaptionItems'
 
-/** Keep stale captions from lingering after the last broadcast update. */
-const CAPTION_TEXT_EXPIRY_MS = 10_000
+// 指挥官 2026-09-17：字幕不再自动消失 —— 上一条一直留在屏幕上，直到下一条消息来把它替换掉。
+// （这里给 24 小时只是"实际上不会到期"；真正清空只发生在下一轮开始时的显式 replace。）
+const CAPTION_TEXT_EXPIRY_MS = 24 * 60 * 60 * 1000
 
 const attached = ref(true)
 
@@ -39,13 +40,16 @@ const captionTypes = [
   'caption-assistant',
 ] satisfies CaptionChannelEvent['type'][]
 
+// 她"点单看画面"的标记绝不能上字幕：显示前最后兜一道（半角/全角冒号都认）。
+const LOOK_TAG_ANY_RE = /\[\[\s*LOOK\s*[:：]\s*(?:his|mine|cam)\s*\]\]/gi
+
 function toCaptionTextSegments(type: CaptionChannelEvent['type']) {
   return captionItems.value
     .filter(item => item.type === type)
-    .map((item, index) => ({
-      key: item.id,
-      text: index === 0 ? item.text : ` ${item.text}`,
-    }))
+    .map((item, index) => {
+      const text = item.text.replace(LOOK_TAG_ANY_RE, '').trim()
+      return { key: item.id, text: index === 0 ? text : ` ${text}` }
+    })
 }
 
 const captionTextByType = computed(() => ({
@@ -111,16 +115,19 @@ onUnmounted(() => {
           v-show="captionTextByType[type].length > 0"
           :key="type"
           :class="[
-            type === 'caption-speaker' ? 'rounded-md px-2 py-1 text-[1.1rem] text-neutral-50 font-medium text-shadow-lg text-shadow-color-neutral-900/60' : '',
-            type === 'caption-assistant' ? 'rounded-md px-2 py-1 text-[1.35rem] text-primary-50 font-semibold text-stroke-4 text-stroke-primary-300/50 text-shadow-lg text-shadow-color-primary-700/50' : '',
+            type === 'caption-speaker' ? 'rounded-md px-2 py-1 text-[0.9rem] text-neutral-50 font-medium text-shadow-lg text-shadow-color-neutral-900/60' : '',
+            type === 'caption-assistant' ? 'rounded-md px-2 py-1 text-[1.05rem] text-primary-50 font-semibold text-stroke-3 text-stroke-primary-300/50 text-shadow-lg text-shadow-color-primary-700/50' : '',
           ]"
           :style="type === 'caption-assistant' ? { paintOrder: 'stroke fill' } : undefined"
         >
-          <PoppinText
-            :text="captionTextByType[type]"
-            :animator="captionAnimatorByType[type]"
-            :text-class="type === 'caption-assistant' ? 'color-neutral-50! align-middle' : type === 'caption-speaker' ? 'color-neutral-50! align-middle' : ''"
-          />
+          <Transition name="caption-swap" mode="out-in">
+            <PoppinText
+              :key="captionTextByType[type].map(seg => `${seg.key}:${seg.text}`).join('|')"
+              :text="captionTextByType[type]"
+              :animator="captionAnimatorByType[type]"
+              :text-class="type === 'caption-assistant' ? 'color-neutral-50! align-middle' : type === 'caption-speaker' ? 'color-neutral-50! align-middle' : ''"
+            />
+          </Transition>
         </div>
       </div>
     </div>
@@ -152,3 +159,15 @@ onUnmounted(() => {
 meta:
   layout: stage
 </route>
+
+<style scoped>
+/* 指挥官 2026-09-17：上一条字幕淡出、下一条淡入，不再生硬替换 */
+.caption-swap-enter-active,
+.caption-swap-leave-active {
+  transition: opacity 0.18s ease-in-out;
+}
+.caption-swap-enter-from,
+.caption-swap-leave-to {
+  opacity: 0;
+}
+</style>

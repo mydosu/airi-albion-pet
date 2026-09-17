@@ -20,6 +20,9 @@ import { useLocalStorage } from '@vueuse/core'
 import { TextureAtlas } from 'pixi-spine'
 import { onMounted, onUnmounted, ref, shallowRef, watch } from 'vue'
 
+// 部署的装扮 B：打包态下 props.modelSrc 是 file://，Chromium 拒绝 fetch(file://)，
+// 所以这里也以构建期资产引进来兜底（与装扮 A、语音同一套机制）。
+import deployedCostumeUrl from '../../../../../stage-ui/src/assets/spine/models/albion-spine-38.zip?url'
 import authorSpecA from '../../../assets/author-models/albion-spec-a.json'
 import authorSpecB from '../../../assets/author-models/albion-spec-b.json'
 // 作者的 change_cos 目标：装扮 A（去除衬衫）。与 B 包并存，切装扮时不碰外部的模型选择器。
@@ -222,8 +225,18 @@ async function setup() {
 
   componentState.value = 'loading'
 
-  const response = await fetch(src)
-  const blob = await response.blob()
+  // 打包态是 file:// 协议，Chromium 会拒绝 fetch(file://) —— 这正是"打包版看不到 Spine 模型"的根因。
+  // 所以取不到时退回构建期资产 URL（dev 下正常走第一分支，行为不变）。
+  let blob: Blob
+  try {
+    blob = await (await fetch(src)).blob()
+  }
+  catch (err) {
+    if (!deployedCostumeUrl)
+      throw err
+    console.warn('[spine38] 直接取模型失败，改用构建期资产:', err)
+    blob = await (await fetch(deployedCostumeUrl)).blob()
+  }
   const file = new File([blob], 'model.zip', { type: 'application/zip' })
   const assets = await loadSpineZip(file)
   if (disposed)
@@ -912,11 +925,45 @@ function listSkins() {
   return model?.spineData.skins.map(s => ({ name: s.name })) ?? []
 }
 
-/** 按名字播一个动作；没有这个动作就返回 false，由调用方决定怎么降级。 */
+/**
+ * AIRI 的 9 种情绪 → 作者那 11 张脸。
+ * 脸号来自**实拍标注**（2026-09-17 把 12 张脸逐张截图后人工辨认）：
+ *   1 惊讶/慌张（颤抖线）· 3 好奇/欲言又止 · 8 开心微笑 · 9 害羞（脸红 + ////）
+ *   10 困惑/晕（螺旋 + 汗滴）· 11 无奈/叹气 · normal 平静温柔 · 2 淡然思考 · 4 平静认真 · 5 温柔 · 6 轻声 · 7 友善
+ * 认不出的按语义就近取（sad → 11 叹气脸、angry → 10 皱眉脸），没有就退回 normal。
+ */
+const FACE_OF_EMOTION: Record<string, string> = {
+  neutral: 'normal',
+  happy: '8',
+  sad: '11',
+  angry: '10',
+  surprised: '1',
+  awkward: '9',
+  question: '3',
+  think: '2',
+  curious: '3',
+}
+
+/**
+ * 表情：
+ *   ① 同名动画优先（换模型/换包时还能用）；
+ *   ② 本模型没有情绪动画 —— 作者是用 `表情` 变量在第 0 层切**整张脸图**（'1'..'11' 都是 0 秒动画），
+ *      所以改变量再重套一次 idle 层即可：layer0 换脸，layer1 身体照常。
+ */
 function setEmotion(name: string, _intensity?: number) {
-  if (!model || !model.spineData.animations.some(a => a.name === name))
+  if (!model)
     return false
-  model.state.setAnimation(poseTrack, name, false)
+  if (model.spineData.animations.some(a => a.name === name)) {
+    model.state.setAnimation(poseTrack, name, false)
+    return true
+  }
+  const face = FACE_OF_EMOTION[name]
+  const st = author.value
+  if (!face || !st)
+    return false
+  st.vars['表情'] = face === 'normal' ? 0 : Number(face)
+  syncIdle()
+  console.info('[spine38] 换脸:', name, '→', face)
   return true
 }
 

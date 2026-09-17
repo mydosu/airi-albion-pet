@@ -19,7 +19,10 @@ import type { Live2DMotionControlPose } from '@proj-airi/stage-ui-live2d/stores'
 
 import { defaultLive2DMotionControlDynamics, neutralLive2DMotionControlPose, useLive2DMotionControl, useLive2dParams } from '@proj-airi/stage-ui-live2d/stores'
 
+import motionMeta from '../../../apps/stage-tamagotchi/src/renderer/public/albion-motions.json'
+
 import { startAlbionEar } from './albion-ear'
+import { eyesEnabled, eyesLook, eyesPresence, startAlbionEyes } from './albion-eyes'
 import { startAlbionInteractions } from './albion-interactions'
 import { useChatStore } from './stores/chat'
 import { useChatSessionStore } from './stores/chat/session-store'
@@ -152,6 +155,12 @@ const ALL_PARTS = [PART_HEAD, PART_CHEST, PART_WAIST, PART_SPECIAL, PART_THIGH, 
  * 开局把七句台词预合成好：桥每句要 2~5 秒（首句更久），
  * 预热完再点她才是零延迟——不然"点了立刻出声"根本不成立。
  */
+// ---- 取画面的状态放模块级：setup 可能被跑两次（HMR/双挂载），放闭包里会出现
+//      "跑的那份和读的那份不是同一个" ⇒ 调试口永远看不到真实状态（踩过）。
+const LOOK_AT: Record<string, number> = {}
+let LOOK_BUSY = false
+let LOOK_TRACE = ''
+
 async function warmTouchVoices() {
   for (const p of ALL_PARTS) {
     for (const line of p.jp.slice(0, 2)) {
@@ -303,7 +312,8 @@ async function loadMotionMeta(): Promise<MotionMeta> {
   if (MOTION_META)
     return MOTION_META
   try {
-    MOTION_META = await (await fetch('/albion-motions.json')).json()
+    // 打包态是 file:// 协议，Chromium 拒绝 fetch(file://)，只有 dev 能读到 —— 改成构建期静态引入。
+    MOTION_META = motionMeta as MotionMeta
   }
   catch {
     MOTION_META = {}
@@ -311,7 +321,20 @@ async function loadMotionMeta(): Promise<MotionMeta> {
   MOTION_META ??= {}
   return MOTION_META
 }
-const ACT_RE = /<\|ACT\s*(?::\s*)?(\{[\s\S]*?\})\s*\|>/i
+const ACT_RE = /<\|ACT\s*(?::\s*)?(\{[\s\S]*?\}\s*)\|>/i
+
+// ---- 她要画面（2026-09-17）：她自己决定看哪一路、什么时候看 --------------------
+// 她在回复里写 <|LOOK:his|> / <|LOOK:mine|> / <|LOOK:cam|>，壳现取一张 → 视觉模型 → 交回给她，
+// 她再就着看到的东西说下一句。标签本身不进字幕、也不进语音。
+// 注意：别用 <|LOOK:xxx|> —— 上层会把"不认识的 <|...|> 标记"整段洗掉（<|ACT:{...}|> 它认识所以留着）。
+// 这里用双方括号，稳稳地送到壳里。
+const LOOK_RE = /\[\[\s*LOOK\s*[:：]\s*(his|mine|cam)\s*\]\]|<\|LOOK\s*[:：]\s*(his|mine|cam)\s*\|>/i
+const LOOK_LABEL: Record<string, string> = {
+  his: '指挥官日常那台电脑的屏幕',
+  mine: '阿尔比恩自己所在那台电脑的屏幕',
+  cam: '这台电脑的摄像头·真实世界',
+}
+const LOOK_HINT = '（想先看点东西的话，就在回复里写 [[LOOK:his]] 指挥官那台电脑的屏幕、[[LOOK:mine]] 你自己所在那台、[[LOOK:cam]] 摄像头·真实世界——我会现取一张交给你，你接着看到的说；不想看就直接说你想说的。）'
 
 function flag(key: string, fallback: boolean) {
   const raw = localStorage.getItem(key)
@@ -343,6 +366,9 @@ export function startAlbionPetInteractions() {
     void warmTouchVoices()
 
   function applyEmotion(name: EmotionName) {
+    // 同时送给场景：Spine 3.8 靠这个换脸（它没有情绪动画，作者是用 `表情` 变量切整张脸图）。
+    // Live2D 走下面的姿态表 —— 小口自己会按渲染器过滤，两边不会打架。
+    ;(globalThis as any).__albionStageEmotion?.(name)
     if (name === 'neutral') {
       motionControl.release(OWNER)
       return
@@ -354,7 +380,42 @@ export function startAlbionPetInteractions() {
     poseTimer = setTimeout(() => motionControl.release(OWNER), 5000)
   }
 
+  // 按来源防抖：同一路 60 秒内不重复取（她想换一路看随时都行——这是她的自由）。
+
+  /** 她要画面：现取一张 → 视觉模型 → 交回给她，她再开口。 */
+  async function deliverLook(source: string) {
+    if (LOOK_BUSY || Date.now() - (LOOK_AT[source] ?? 0) < 60_000) {
+      LOOK_TRACE = `被防抖挡住 busy=${LOOK_BUSY} 距上次=${Date.now() - (LOOK_AT[source] ?? 0)}ms`
+      console.error('[albion-pet] 没去取画面：', LOOK_TRACE)
+      return
+    }
+    LOOK_BUSY = true
+    LOOK_AT[source] = Date.now()
+    try {
+      const obs = await eyesLook(source as 'his' | 'mine' | 'cam')
+      const label = LOOK_LABEL[source] ?? source
+      const body = obs.text && !obs.error ? obs.text : `这一路没取到画面（${obs.error ?? '未知原因'}）`
+      LOOK_TRACE = `已取到 ${source}: ${String(body).slice(0, 60)}`
+      console.error('[albion-pet] 她要画面，已取到：', source, String(body).slice(0, 60))
+      await sendPoke(`（你要的【${label}】画面取来了：${body}\n就着这个看到的，用一句自然的话说下去，别再要同一路画面。）`)
+    }
+    catch (e) {
+      LOOK_TRACE = `取画面失败: ${String((e as Error)?.message ?? e)}`
+      console.error('[albion-pet] 取画面失败', e)
+    }
+    finally {
+      LOOK_BUSY = false
+    }
+  }
+
   function handleAssistantMessage(content: string): string | undefined {
+    const look = LOOK_RE.exec(content)
+    if (look) {
+      const src = (look[1] ?? look[2]).toLowerCase()
+      LOOK_TRACE = `认出标签 ${src}`
+      content = content.replace(LOOK_RE, '').trim()
+      void deliverLook(src)
+    }
     const m = ACT_RE.exec(content)
     const cleaned = m ? content.replace(ACT_RE, '').trim() : undefined
     if (!flag('settings/albion/emotion-enabled', true))
@@ -755,23 +816,78 @@ export function startAlbionPetInteractions() {
     }
   }
 
-  // ---- 3. 主动说话：安静太久了 ------------------------------------------------
+  // ---- 3. 主动说话：安静够久了她自己找个话头 ------------------------------------
+  // 两种途径（每次随机挑一种）：
+  //   a) 带桌面观察 —— 现截一张给视觉模型，她接着看到的东西开口
+  //   b) 纯问候     —— 不截图，就打个招呼
+  // 无回复自适应静默：没回应的次数越多、下次等得越久；连续 silent-max 次没回应就静默，直到指挥官先开口。
+  // 参数：settings/albion/proactive-minutes（基础间隔，0=关，默认 8）
+  //      settings/albion/proactive-jitter（随机抖动比例，默认 0.5 ⇒ 4~12 分钟）
+  //      settings/albion/proactive-silent-max（连续几次没回应就静默，默认 3）
+  //      settings/albion/proactive-eyes-chance（这次带截图的概率，默认 0.5）
   let lastSeenCount = 0
-  let lastSpeakAt = Date.now()
+  let silentStreak = 0
+  let awaitingReply = false
+  let waitUntil = Date.now() + minutes('settings/albion/proactive-minutes', 8) * 60_000
+
+  function nextWaitMs(round: number): number {
+    const base = minutes('settings/albion/proactive-minutes', 8) * 60_000
+    const raw = Number(localStorage.getItem('settings/albion/proactive-jitter'))
+    const jitter = Number.isFinite(raw) ? Math.max(0, Math.min(1, raw)) : 0.5
+    const r = 1 - jitter + Math.random() * jitter * 2
+    return base * r * 2 ** Math.min(round, 3) // 没回应就等更久（最多 8 倍）
+  }
+
   setInterval(() => {
-    const everyMin = minutes('settings/albion/proactive-minutes', 8)
-    if (everyMin <= 0)
+    const base = minutes('settings/albion/proactive-minutes', 8)
+    if (base <= 0)
       return
     const msgs = session.messages ?? []
     if (msgs.length !== lastSeenCount) {
+      // 指挥官说话了 ⇒ 结束静默、清零计数、重新计时
       lastSeenCount = msgs.length
-      lastSpeakAt = Date.now()
+      if (awaitingReply) {
+        awaitingReply = false
+        silentStreak = 0
+      }
+      waitUntil = Date.now() + nextWaitMs(0)
       return
     }
-    if (Date.now() - lastSpeakAt < everyMin * 60_000)
+    if (Date.now() < waitUntil)
       return
-    lastSpeakAt = Date.now()
-    void sendPoke('（好一会儿没人说话了。用一句自然的话主动和指挥官搭个话，别连着提问。）')
+    const maxSilent = Number(localStorage.getItem('settings/albion/proactive-silent-max')) || 3
+    if (silentStreak >= maxSilent) {
+      waitUntil = Date.now() + 30 * 60_000 // 静默中：半小时后再看一眼，指挥官一开口就恢复
+      return
+    }
+    if (awaitingReply)
+      silentStreak += 1
+    // 防重复：HMR / 页面重载 / 多实例都可能让定时器在短时间内连发两次
+    // （2026-09-17 实测出现过 11 秒内两条一模一样的自动 prompt）。
+    // 用一个写进 localStorage 的时间戳当闸门，跨实例共享：90 秒内只允许一次主动开口。
+    const lastPokeKey = 'settings/albion/proactive-last-at'
+    if (Date.now() - Number(localStorage.getItem(lastPokeKey) || 0) < 90_000) {
+      console.info('[albion-pet] 距上次主动开口不到 90 秒，这次跳过')
+      waitUntil = Date.now() + 60_000
+      return
+    }
+    localStorage.setItem(lastPokeKey, String(Date.now()))
+    void (async () => {
+      // 先看摄像头：人不在就不开口（别打扰空房间）。看不清/没摄像头 → 照旧开口。
+      if (eyesEnabled()) {
+        const here = await eyesPresence()
+        if (here === false) {
+          console.info('[albion-pet] 摄像头里没人，这次不主动开口')
+          return
+        }
+      }
+      // 2026-09-17：不再由壳决定给她看什么 —— 要不要看、看哪一路，她自己定。
+      // 想看她就在回复里写 <|LOOK:xxx|>，壳取来再回给她（见 deliverLook）。
+      const hint = `用一句自然的话主动和指挥官搭个话，别连着提问。${eyesEnabled() ? LOOK_HINT : ''}`
+      awaitingReply = true
+      await sendPoke(`（好一会儿没人说话了。${hint}）`)
+    })()
+    waitUntil = Date.now() + nextWaitMs(silentStreak)
   }, 60_000)
 
   // ---- 轮询最新回复，处理情绪标记（AIRI 主流程没接这个标记，这里自己接） --------
@@ -786,6 +902,9 @@ export function startAlbionPetInteractions() {
     if (cleaned !== undefined && cleaned !== content && last)
       last.content = cleaned
   }, 1200)
+
+  // 眼睛：定时看主用电脑的屏幕（默认关，隐私开关 settings/albion/eyes-enabled）
+  startAlbionEyes()
 
   // 触摸/拖动交给交互层（读模型包自带的 HitAreas 与 ParamHit 规格）
   void startAlbionInteractions({
@@ -812,6 +931,8 @@ export function startAlbionPetInteractions() {
     poke: (name?: string) => poke(ALL_PARTS.find(p => p.name === name) ?? PART_CHEST),
     emotion: applyEmotion,
     send: sendPoke,
+    lookNow: (source: string) => deliverLook(source),
+    lookState: () => ({ busy: LOOK_BUSY, trace: LOOK_TRACE, at: { ...LOOK_AT } }),
     play: playMotion,
     motions: ALBION_MOTIONS,
     hitTest: (x: number, y: number) => pickPart(x, y)?.name,

@@ -73,11 +73,11 @@ export function sidecarDirs(): SidecarDirs {
   const bundled = bundledRoot()
   return {
     irodoriDir: process.env.ALBION_IRODORI_DIR || cfg.irodoriDir
-      || (bundled && existsSync(join(bundled, 'irodori')) ? join(bundled, 'irodori') : 'C:/app/Irodori-TTS'),
+      || (bundled && existsSync(join(bundled, 'irodori')) ? join(bundled, 'irodori') : 'D:/AI/Wife/tts/irodori'),
     earDir: process.env.ALBION_EAR_DIR || cfg.earDir
-      || (bundled && existsSync(join(bundled, 'ear')) ? join(bundled, 'ear') : 'C:/app/albion-pet'),
+      || (bundled && existsSync(join(bundled, 'ear')) ? join(bundled, 'ear') : 'D:/AI/Wife/pet'),
     pythonExe: process.env.ALBION_GSV_PYTHON || cfg.pythonExe
-      || 'C:/app/GPT-SoVITS/runtime/python.exe',
+      || 'D:/AI/Wife/tts/denia/runtime/python.exe',
   }
 }
 

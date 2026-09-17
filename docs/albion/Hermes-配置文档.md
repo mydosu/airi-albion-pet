@@ -44,9 +44,9 @@ model:
   default: deepseek-flash
 
 providers: # 自定义 OpenAI 兼容端点
-  custom:my-endpoint:
-    name: MyRelay
-    base_url: https://你的中转地址/v1
+  custom:slb-v1-api-fan:
+    name: PackyCode
+    base_url: https://slb-v1.api.fan/v1
     api_mode: chat_completions
     transport: openai_chat
     model: deepseek-v4-flash

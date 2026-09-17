@@ -39,27 +39,6 @@ catalogs:
     '@better-fetch/fetch':
       specifier: ^1.3.1
       version: 1.3.1
-    '@capacitor/android':
-      specifier: ^8.5.0
-      version: 8.5.0
-    '@capacitor/app':
-      specifier: ^8.1.1
-      version: 8.1.1
-    '@capacitor/barcode-scanner':
-      specifier: ^3.1.1
-      version: 3.1.1
-    '@capacitor/cli':
-      specifier: ^8.5.0
-      version: 8.5.0
-    '@capacitor/core':
-      specifier: ^8.5.0
-      version: 8.5.0
-    '@capacitor/ios':
-      specifier: ^8.5.0
-      version: 8.5.0
-    '@capacitor/local-notifications':
-      specifier: ^8.3.1
-      version: 8.3.1
     '@date-fns/utc':
       specifier: ^2.1.1
       version: 2.1.1
@@ -330,6 +309,9 @@ catalogs:
     '@pinia/testing':
       specifier: ^2.0.1
       version: 2.0.1
+    '@pixi-spine/runtime-3.8':
+      specifier: 3.1.2
+      version: 3.1.2
     '@pixi/app':
       specifier: ^6.5.10
       version: 6.5.10
@@ -486,9 +468,6 @@ catalogs:
     '@types/ws':
       specifier: ^8.18.1
       version: 8.18.1
-    '@types/xast':
-      specifier: ^2.0.4
-      version: 2.0.4
     '@types/yauzl':
       specifier: ^3.4.0
       version: 3.4.0
@@ -642,9 +621,6 @@ catalogs:
     canvas:
       specifier: ^3.2.3
       version: 3.2.3
-    capacitor-native-settings:
-      specifier: ^8.2.0
-      version: 8.2.0
     chess.js:
       specifier: ^1.4.0
       version: 1.4.0
@@ -915,6 +891,9 @@ catalogs:
     pixi-live2d-display:
       specifier: ^0.4.0
       version: 0.4.0
+    pixi-spine:
+      specifier: 3.1.2
+      version: 3.1.2
     playwright:
       specifier: ^1.62.1
       version: 1.62.1
@@ -1398,446 +1377,6 @@ importers:
       yaml:
         specifier: 'catalog:'
         version: 2.9.0
-
-  apps/component-calling:
-    dependencies:
-      '@proj-airi/ui':
-        specifier: workspace:^
-        version: link:../../packages/ui
-      '@vueuse/core':
-        specifier: 'catalog:'
-        version: 14.4.0(vue@3.5.41(typescript@6.0.3))
-      '@xsai/generate-text':
-        specifier: 'catalog:'
-        version: 0.5.0
-      '@xsai/shared-chat':
-        specifier: 'catalog:'
-        version: 0.5.0
-      '@xsai/stream-text':
-        specifier: 'catalog:'
-        version: 0.5.0
-      valibot:
-        specifier: 'catalog:'
-        version: 1.4.2(typescript@6.0.3)
-      vue:
-        specifier: 'catalog:'
-        version: 3.5.41(typescript@6.0.3)
-      xsschema:
-        specifier: 'catalog:'
-        version: 0.5.0(@valibot/to-json-schema@1.7.1(valibot@1.4.2(typescript@6.0.3)))(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3)
-    devDependencies:
-      '@iconify-json/solar':
-        specifier: 'catalog:'
-        version: 1.2.9
-      '@iconify-json/svg-spinners':
-        specifier: 'catalog:'
-        version: 1.2.4
-      '@types/xast':
-        specifier: 'catalog:'
-        version: 2.0.4
-      '@unocss/reset':
-        specifier: 'catalog:'
-        version: 66.7.5
-      '@vitejs/plugin-vue':
-        specifier: 'catalog:'
-        version: 6.0.8(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(less@4.9.0(supports-color@10.2.2))(terser@5.50.0)(tsx@4.23.12)(yaml@2.9.0))(vue@3.5.41(typescript@6.0.3))
-      vite:
-        specifier: 'catalog:'
-        version: 8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(less@4.9.0(supports-color@10.2.2))(terser@5.50.0)(tsx@4.23.12)(yaml@2.9.0)
-      vue-router:
-        specifier: 'catalog:'
-        version: 5.2.0(@pinia/colada@1.4.2(pinia@4.0.3(@vue/devtools-api@8.2.1)(typescript@6.0.3)(vue@3.5.41(typescript@6.0.3)))(vue@3.5.41(typescript@6.0.3)))(@vue/compiler-sfc@3.5.41)(esbuild@0.28.2)(pinia@4.0.3(@vue/devtools-api@8.2.1)(typescript@6.0.3)(vue@3.5.41(typescript@6.0.3)))(rolldown@1.2.5)(rollup@4.62.5)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(less@4.9.0(supports-color@10.2.2))(terser@5.50.0)(tsx@4.23.12)(yaml@2.9.0))(vue@3.5.41(typescript@6.0.3))
-      vue-tsc:
-        specifier: 'catalog:'
-        version: 3.3.11(typescript@6.0.3)
-
-  apps/stage-pocket:
-    dependencies:
-      '@capacitor/android':
-        specifier: 'catalog:'
-        version: 8.5.0(@capacitor/core@8.5.0)
-      '@capacitor/app':
-        specifier: 'catalog:'
-        version: 8.1.1(@capacitor/core@8.5.0)
-      '@capacitor/barcode-scanner':
-        specifier: 'catalog:'
-        version: 3.1.1(@capacitor/core@8.5.0)
-      '@capacitor/core':
-        specifier: 'catalog:'
-        version: 8.5.0
-      '@capacitor/ios':
-        specifier: 'catalog:'
-        version: 8.5.0(@capacitor/core@8.5.0)
-      '@capacitor/local-notifications':
-        specifier: 'catalog:'
-        version: 8.3.1(@capacitor/core@8.5.0)
-      '@date-fns/utc':
-        specifier: 'catalog:'
-        version: 2.1.1
-      '@fontsource-variable/nunito':
-        specifier: 'catalog:'
-        version: 5.3.0
-      '@formkit/auto-animate':
-        specifier: 'catalog:'
-        version: 0.10.0(vue@3.5.41(typescript@6.0.3))
-      '@huggingface/transformers':
-        specifier: 'catalog:'
-        version: 3.8.1
-      '@moeru/eventa':
-        specifier: 'catalog:'
-        version: 1.0.0(electron@43.4.1(supports-color@10.2.2))(h3@2.0.1-rc.29(crossws@0.4.12(srvx@0.12.7)))(hono@4.13.3)
-      '@moeru/std':
-        specifier: 'catalog:'
-        version: 0.1.0-beta.17
-      '@proj-airi/audio':
-        specifier: workspace:^
-        version: link:../../packages/audio
-      '@proj-airi/ccc':
-        specifier: workspace:^
-        version: link:../../packages/ccc
-      '@proj-airi/drizzle-duckdb-wasm':
-        specifier: 'catalog:'
-        version: 0.6.0(drizzle-orm@0.45.2(@electric-sql/pglite@0.5.6)(@opentelemetry/api@1.9.1)(@prisma/client@5.22.0)(@types/pg@8.23.1)(better-sqlite3@12.11.1)(kysely@0.29.5)(pg@8.23.0)(postgres@3.4.9))
-      '@proj-airi/font-chillroundm':
-        specifier: workspace:^
-        version: link:../../packages/font-chillroundm
-      '@proj-airi/font-cjkfonts-allseto':
-        specifier: workspace:^
-        version: link:../../packages/font-cjkfonts-allseto
-      '@proj-airi/font-xiaolai':
-        specifier: workspace:^
-        version: link:../../packages/font-xiaolai
-      '@proj-airi/i18n':
-        specifier: workspace:^
-        version: link:../../packages/i18n
-      '@proj-airi/pipelines-audio':
-        specifier: workspace:^
-        version: link:../../packages/pipelines-audio
-      '@proj-airi/server-sdk':
-        specifier: workspace:^
-        version: link:../../packages/server-sdk
-      '@proj-airi/stage-layouts':
-        specifier: workspace:^
-        version: link:../../packages/stage-layouts
-      '@proj-airi/stage-shared':
-        specifier: workspace:^
-        version: link:../../packages/stage-shared
-      '@proj-airi/stage-ui':
-        specifier: workspace:^
-        version: link:../../packages/stage-ui
-      '@proj-airi/stage-ui-live2d':
-        specifier: workspace:^
-        version: link:../../packages/stage-ui-live2d
-      '@proj-airi/stage-ui-three':
-        specifier: workspace:^
-        version: link:../../packages/stage-ui-three
-      '@proj-airi/stream-kit':
-        specifier: workspace:^
-        version: link:../../packages/stream-kit
-      '@proj-airi/ui':
-        specifier: workspace:^
-        version: link:../../packages/ui
-      '@proj-airi/ui-transitions':
-        specifier: workspace:^
-        version: link:../../packages/ui-transitions
-      '@tresjs/cientos':
-        specifier: 'catalog:'
-        version: 5.8.1(@tresjs/core@5.8.3(@types/three@0.185.4)(three@0.185.1)(vue@3.5.41(typescript@6.0.3)))(three@0.185.1)(vue@3.5.41(typescript@6.0.3))
-      '@tresjs/core':
-        specifier: 'catalog:'
-        version: 5.8.3(@types/three@0.185.4)(three@0.185.1)(vue@3.5.41(typescript@6.0.3))
-      '@valibot/to-json-schema':
-        specifier: 'catalog:'
-        version: 1.0.0-rc.0(valibot@1.4.2(typescript@6.0.3))
-      '@vueuse/core':
-        specifier: 'catalog:'
-        version: 14.4.0(vue@3.5.41(typescript@6.0.3))
-      '@vueuse/shared':
-        specifier: 'catalog:'
-        version: 14.4.0(vue@3.5.41(typescript@6.0.3))
-      '@xsai-ext/providers':
-        specifier: 'catalog:'
-        version: 0.5.0
-      '@xsai-transformers/embed':
-        specifier: 'catalog:'
-        version: 0.1.0(electron@43.4.1(supports-color@10.2.2))(h3@2.0.1-rc.29(crossws@0.4.12(srvx@0.12.7)))
-      '@xsai/generate-speech':
-        specifier: 'catalog:'
-        version: 0.5.0
-      '@xsai/generate-text':
-        specifier: 'catalog:'
-        version: 0.5.0
-      '@xsai/model':
-        specifier: 'catalog:'
-        version: 0.5.0
-      '@xsai/shared':
-        specifier: 'catalog:'
-        version: 0.5.0
-      '@xsai/shared-chat':
-        specifier: 'catalog:'
-        version: 0.5.0
-      '@xsai/stream-text':
-        specifier: 'catalog:'
-        version: 0.5.0
-      '@xsai/stream-transcription':
-        specifier: 'catalog:'
-        version: 0.5.0
-      '@xsai/utils-chat':
-        specifier: 'catalog:'
-        version: 0.5.0
-      animejs:
-        specifier: 'catalog:'
-        version: 4.5.0(@types/three@0.185.4)(three@0.185.1)
-      capacitor-native-settings:
-        specifier: 'catalog:'
-        version: 8.2.0(@capacitor/core@8.5.0)
-      colorjs.io:
-        specifier: 'catalog:'
-        version: 0.7.1
-      culori:
-        specifier: 'catalog:'
-        version: 4.0.2
-      d3:
-        specifier: 'catalog:'
-        version: 7.9.0
-      date-fns:
-        specifier: 'catalog:'
-        version: 4.4.0
-      dompurify:
-        specifier: 'catalog:'
-        version: 3.4.14
-      driver.js:
-        specifier: 'catalog:'
-        version: 1.8.0
-      drizzle-orm:
-        specifier: 'catalog:'
-        version: 0.45.2(@electric-sql/pglite@0.5.6)(@opentelemetry/api@1.9.1)(@prisma/client@5.22.0)(@types/pg@8.23.1)(better-sqlite3@12.11.1)(kysely@0.29.5)(pg@8.23.0)(postgres@3.4.9)
-      embla-carousel-vue:
-        specifier: 'catalog:'
-        version: 9.0.0-rc02(vue@3.5.41(typescript@6.0.3))
-      gpuu:
-        specifier: 'catalog:'
-        version: 1.0.7
-      html2canvas:
-        specifier: 'catalog:'
-        version: 1.4.1
-      jszip:
-        specifier: 'catalog:'
-        version: 3.10.1
-      localforage:
-        specifier: 'catalog:'
-        version: 1.10.0
-      mediabunny:
-        specifier: 'catalog:'
-        version: 1.55.2
-      nanoid:
-        specifier: 'catalog:'
-        version: 6.0.1
-      node-vibrant:
-        specifier: 'catalog:'
-        version: 4.0.4
-      nprogress:
-        specifier: 'catalog:'
-        version: 0.2.0
-      onnxruntime-web:
-        specifier: npm:onnxruntime-web@^1.27.0
-        version: 1.27.0
-      pinia:
-        specifier: 'catalog:'
-        version: 4.0.3(@vue/devtools-api@8.2.1)(typescript@6.0.3)(vue@3.5.41(typescript@6.0.3))
-      posthog-js:
-        specifier: 'catalog:'
-        version: 1.306.1
-      rehype-stringify:
-        specifier: 'catalog:'
-        version: 10.0.1
-      reka-ui:
-        specifier: 'catalog:'
-        version: 2.10.3(vue@3.5.41(typescript@6.0.3))
-      remark-parse:
-        specifier: 'catalog:'
-        version: 11.0.0(supports-color@10.2.2)
-      remark-rehype:
-        specifier: 'catalog:'
-        version: 11.1.2
-      shiki:
-        specifier: 'catalog:'
-        version: 4.4.3
-      splitpanes:
-        specifier: 'catalog:'
-        version: 4.1.2(vue@3.5.41(typescript@6.0.3))
-      three:
-        specifier: 'catalog:'
-        version: 0.185.1
-      unified:
-        specifier: 'catalog:'
-        version: 11.0.5
-      unspeech:
-        specifier: catalog:xsai
-        version: 0.1.16
-      uuid:
-        specifier: 'catalog:'
-        version: 14.0.2
-      valibot:
-        specifier: 'catalog:'
-        version: 1.4.2(typescript@6.0.3)
-      vaul-vue:
-        specifier: 'catalog:'
-        version: 0.4.1(reka-ui@2.10.3(vue@3.5.41(typescript@6.0.3)))(vue@3.5.41(typescript@6.0.3))
-      vue:
-        specifier: 'catalog:'
-        version: 3.5.41(typescript@6.0.3)
-      vue-demi:
-        specifier: 'catalog:'
-        version: 0.14.10(vue@3.5.41(typescript@6.0.3))
-      vue-i18n:
-        specifier: 'catalog:'
-        version: 11.4.9(vue@3.5.41(typescript@6.0.3))
-      vue-router:
-        specifier: 'catalog:'
-        version: 5.2.0(@pinia/colada@1.4.2(pinia@4.0.3(@vue/devtools-api@8.2.1)(typescript@6.0.3)(vue@3.5.41(typescript@6.0.3)))(vue@3.5.41(typescript@6.0.3)))(@vue/compiler-sfc@3.5.41)(esbuild@0.28.2)(pinia@4.0.3(@vue/devtools-api@8.2.1)(typescript@6.0.3)(vue@3.5.41(typescript@6.0.3)))(rolldown@1.2.5)(rollup@4.62.5)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(less@4.9.0(supports-color@10.2.2))(terser@5.50.0)(tsx@4.23.12)(yaml@2.9.0))(vue@3.5.41(typescript@6.0.3))
-      vue-sonner:
-        specifier: 'catalog:'
-        version: 2.0.9(@nuxt/kit@3.21.11(magicast@0.5.4))(vue@3.5.41(typescript@6.0.3))
-      web-haptics:
-        specifier: 'catalog:'
-        version: 0.0.6(vue@3.5.41(typescript@6.0.3))
-      workbox-window:
-        specifier: 'catalog:'
-        version: 7.4.1
-      xsschema:
-        specifier: 'catalog:'
-        version: 0.5.0(@valibot/to-json-schema@1.0.0-rc.0(valibot@1.4.2(typescript@6.0.3)))(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3)
-      yauzl:
-        specifier: 'catalog:'
-        version: 3.4.0
-      zod:
-        specifier: 'catalog:'
-        version: 4.4.3
-    devDependencies:
-      '@capacitor/cli':
-        specifier: 'catalog:'
-        version: 8.5.0(supports-color@10.2.2)
-      '@iconify-json/carbon':
-        specifier: 'catalog:'
-        version: 1.2.25
-      '@iconify-json/eos-icons':
-        specifier: 'catalog:'
-        version: 1.2.4
-      '@iconify-json/lucide':
-        specifier: 'catalog:'
-        version: 1.2.125
-      '@iconify-json/mingcute':
-        specifier: 'catalog:'
-        version: 1.2.8
-      '@iconify-json/ph':
-        specifier: 'catalog:'
-        version: 1.2.2
-      '@iconify-json/simple-icons':
-        specifier: 'catalog:'
-        version: 1.2.93
-      '@iconify-json/solar':
-        specifier: 'catalog:'
-        version: 1.2.9
-      '@iconify-json/svg-spinners':
-        specifier: 'catalog:'
-        version: 1.2.4
-      '@iconify-json/vscode-icons':
-        specifier: 'catalog:'
-        version: 1.2.74
-      '@intlify/unplugin-vue-i18n':
-        specifier: 'catalog:'
-        version: 11.2.5(@vue/compiler-dom@3.5.41)(eslint@10.9.0(jiti@2.7.0)(supports-color@10.2.2))(rollup@4.62.5)(supports-color@10.2.2)(typescript@6.0.3)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(less@4.9.0(supports-color@10.2.2))(terser@5.50.0)(tsx@4.23.12)(yaml@2.9.0))(vue-i18n@11.4.9(vue@3.5.41(typescript@6.0.3)))(vue@3.5.41(typescript@6.0.3))
-      '@proj-airi/cap-vite':
-        specifier: workspace:*
-        version: link:../../packages/cap-vite
-      '@proj-airi/iconify-meteocons':
-        specifier: 'catalog:'
-        version: 0.1.5
-      '@proj-airi/lobe-icons':
-        specifier: 'catalog:'
-        version: 1.0.19
-      '@proj-airi/unplugin-fetch':
-        specifier: 'catalog:'
-        version: 0.2.3(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(less@4.9.0(supports-color@10.2.2))(terser@5.50.0)(tsx@4.23.12)(yaml@2.9.0))
-      '@proj-airi/unplugin-live2d-sdk':
-        specifier: 'catalog:'
-        version: 0.1.7(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(less@4.9.0(supports-color@10.2.2))(terser@5.50.0)(tsx@4.23.12)(yaml@2.9.0)
-      '@shikijs/markdown-it':
-        specifier: 'catalog:'
-        version: 4.4.3
-      '@types/audioworklet':
-        specifier: 'catalog:'
-        version: 0.0.100
-      '@types/culori':
-        specifier: 'catalog:'
-        version: 4.0.1
-      '@types/nprogress':
-        specifier: 'catalog:'
-        version: 0.2.3
-      '@types/splitpanes':
-        specifier: 'catalog:'
-        version: 2.2.6
-      '@types/three':
-        specifier: 'catalog:'
-        version: 0.185.4
-      '@types/yauzl':
-        specifier: 'catalog:'
-        version: 3.4.0
-      '@unocss/reset':
-        specifier: 'catalog:'
-        version: 66.7.5
-      '@vitejs/plugin-vue':
-        specifier: 'catalog:'
-        version: 6.0.8(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(less@4.9.0(supports-color@10.2.2))(terser@5.50.0)(tsx@4.23.12)(yaml@2.9.0))(vue@3.5.41(typescript@6.0.3))
-      '@vue-macros/volar':
-        specifier: 'catalog:'
-        version: 3.1.4(typescript@6.0.3)(vue-tsc@3.3.11(typescript@6.0.3))(vue@3.5.41(typescript@6.0.3))
-      '@vueuse/motion':
-        specifier: 'catalog:'
-        version: 3.0.3(magicast@0.5.4)(vue@3.5.41(typescript@6.0.3))
-      '@webgpu/types':
-        specifier: 'catalog:'
-        version: 0.1.72
-      csstype:
-        specifier: 'catalog:'
-        version: 3.2.3
-      hfup:
-        specifier: 'catalog:'
-        version: 1.0.4(esbuild@0.28.2)(rolldown@1.2.5)(rollup@4.62.5)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(less@4.9.0(supports-color@10.2.2))(terser@5.50.0)(tsx@4.23.12)(yaml@2.9.0))
-      less:
-        specifier: 'catalog:'
-        version: 4.9.0(supports-color@10.2.2)
-      unplugin-info:
-        specifier: 'catalog:'
-        version: 1.3.2(@nuxt/kit@3.21.11(magicast@0.5.4))(esbuild@0.28.2)(rollup@4.62.5)(supports-color@10.2.2)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(less@4.9.0(supports-color@10.2.2))(terser@5.50.0)(tsx@4.23.12)(yaml@2.9.0))
-      unplugin-yaml:
-        specifier: 'catalog:'
-        version: 4.2.1(@nuxt/kit@3.21.11(magicast@0.5.4))(esbuild@0.28.2)(rolldown@1.2.5)(rollup@4.62.5)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(less@4.9.0(supports-color@10.2.2))(terser@5.50.0)(tsx@4.23.12)(yaml@2.9.0))
-      vite:
-        specifier: 'catalog:'
-        version: 8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(less@4.9.0(supports-color@10.2.2))(terser@5.50.0)(tsx@4.23.12)(yaml@2.9.0)
-      vite-bundle-visualizer:
-        specifier: 'catalog:'
-        version: 1.2.1(rolldown@1.2.5)(rollup@4.62.5)(supports-color@10.2.2)
-      vite-plugin-mkcert:
-        specifier: 'catalog:'
-        version: 2.1.0(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(less@4.9.0(supports-color@10.2.2))(terser@5.50.0)(tsx@4.23.12)(yaml@2.9.0))
-      vite-plugin-pwa:
-        specifier: 'catalog:'
-        version: 1.3.0(supports-color@10.2.2)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(less@4.9.0(supports-color@10.2.2))(terser@5.50.0)(tsx@4.23.12)(yaml@2.9.0))(workbox-build@7.4.1(supports-color@10.2.2))(workbox-window@7.4.1)
-      vite-plugin-vue-devtools:
-        specifier: 'catalog:'
-        version: 8.2.1(@nuxt/kit@3.21.11(magicast@0.5.4))(supports-color@10.2.2)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(less@4.9.0(supports-color@10.2.2))(terser@5.50.0)(tsx@4.23.12)(yaml@2.9.0))(vue@3.5.41(typescript@6.0.3))
-      vite-plugin-vue-layouts:
-        specifier: 'catalog:'
-        version: 0.11.0(supports-color@10.2.2)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(less@4.9.0(supports-color@10.2.2))(terser@5.50.0)(tsx@4.23.12)(yaml@2.9.0))(vue-router@5.2.0(@pinia/colada@1.4.2(pinia@4.0.3(@vue/devtools-api@8.2.1)(typescript@6.0.3)(vue@3.5.41(typescript@6.0.3)))(vue@3.5.41(typescript@6.0.3)))(@vue/compiler-sfc@3.5.41)(esbuild@0.28.2)(pinia@4.0.3(@vue/devtools-api@8.2.1)(typescript@6.0.3)(vue@3.5.41(typescript@6.0.3)))(rolldown@1.2.5)(rollup@4.62.5)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(less@4.9.0(supports-color@10.2.2))(terser@5.50.0)(tsx@4.23.12)(yaml@2.9.0))(vue@3.5.41(typescript@6.0.3)))(vue@3.5.41(typescript@6.0.3))
-      vue-macros:
-        specifier: 'catalog:'
-        version: 3.1.4(@vueuse/core@14.4.0(vue@3.5.41(typescript@6.0.3)))(esbuild@0.28.2)(rolldown@1.2.5)(rollup@4.62.5)(typescript@6.0.3)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(less@4.9.0(supports-color@10.2.2))(terser@5.50.0)(tsx@4.23.12)(yaml@2.9.0))(vue-tsc@3.3.11(typescript@6.0.3))(vue@3.5.41(typescript@6.0.3))
-      vue-tsc:
-        specifier: 'catalog:'
-        version: 3.3.11(typescript@6.0.3)
 
   apps/stage-tamagotchi:
     dependencies:
@@ -2750,190 +2289,6 @@ importers:
       vite-plugin-pwa:
         specifier: 'catalog:'
         version: 1.3.0(supports-color@10.2.2)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(less@4.9.0(supports-color@10.2.2))(terser@5.50.0)(tsx@4.23.12)(yaml@2.9.0))(workbox-build@7.4.1(supports-color@10.2.2))(workbox-window@7.4.1)
-      vite-plugin-vue-devtools:
-        specifier: 'catalog:'
-        version: 8.2.1(@nuxt/kit@3.21.11(magicast@0.5.4))(supports-color@10.2.2)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(less@4.9.0(supports-color@10.2.2))(terser@5.50.0)(tsx@4.23.12)(yaml@2.9.0))(vue@3.5.41(typescript@6.0.3))
-      vite-plugin-vue-layouts:
-        specifier: 'catalog:'
-        version: 0.11.0(supports-color@10.2.2)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(less@4.9.0(supports-color@10.2.2))(terser@5.50.0)(tsx@4.23.12)(yaml@2.9.0))(vue-router@5.2.0(@pinia/colada@1.4.2(pinia@4.0.3(@vue/devtools-api@8.2.1)(typescript@6.0.3)(vue@3.5.41(typescript@6.0.3)))(vue@3.5.41(typescript@6.0.3)))(@vue/compiler-sfc@3.5.41)(esbuild@0.28.2)(pinia@4.0.3(@vue/devtools-api@8.2.1)(typescript@6.0.3)(vue@3.5.41(typescript@6.0.3)))(rolldown@1.2.5)(rollup@4.62.5)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(less@4.9.0(supports-color@10.2.2))(terser@5.50.0)(tsx@4.23.12)(yaml@2.9.0))(vue@3.5.41(typescript@6.0.3)))(vue@3.5.41(typescript@6.0.3))
-      vue-macros:
-        specifier: 'catalog:'
-        version: 3.1.4(@vueuse/core@14.4.0(vue@3.5.41(typescript@6.0.3)))(esbuild@0.28.2)(rolldown@1.2.5)(rollup@4.62.5)(typescript@6.0.3)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(less@4.9.0(supports-color@10.2.2))(terser@5.50.0)(tsx@4.23.12)(yaml@2.9.0))(vue-tsc@3.3.11(typescript@6.0.3))(vue@3.5.41(typescript@6.0.3))
-      vue-tsc:
-        specifier: 'catalog:'
-        version: 3.3.11(typescript@6.0.3)
-
-  apps/ui-server-auth:
-    dependencies:
-      '@date-fns/utc':
-        specifier: 'catalog:'
-        version: 2.1.1
-      '@fontsource-variable/nunito':
-        specifier: 'catalog:'
-        version: 5.3.0
-      '@formkit/auto-animate':
-        specifier: 'catalog:'
-        version: 0.10.0(vue@3.5.41(typescript@6.0.3))
-      '@moeru/eventa':
-        specifier: 'catalog:'
-        version: 1.0.0(electron@43.4.1(supports-color@10.2.2))(h3@2.0.1-rc.29(crossws@0.4.12(srvx@0.12.7)))(hono@4.13.3)
-      '@moeru/std':
-        specifier: 'catalog:'
-        version: 0.1.0-beta.17
-      '@proj-airi/font-chillroundm':
-        specifier: workspace:^
-        version: link:../../packages/font-chillroundm
-      '@proj-airi/font-cjkfonts-allseto':
-        specifier: workspace:^
-        version: link:../../packages/font-cjkfonts-allseto
-      '@proj-airi/font-xiaolai':
-        specifier: workspace:^
-        version: link:../../packages/font-xiaolai
-      '@proj-airi/i18n':
-        specifier: workspace:^
-        version: link:../../packages/i18n
-      '@proj-airi/stage-layouts':
-        specifier: workspace:^
-        version: link:../../packages/stage-layouts
-      '@proj-airi/stage-shared':
-        specifier: workspace:^
-        version: link:../../packages/stage-shared
-      '@proj-airi/stage-ui':
-        specifier: workspace:^
-        version: link:../../packages/stage-ui
-      '@proj-airi/ui':
-        specifier: workspace:^
-        version: link:../../packages/ui
-      '@vueuse/core':
-        specifier: 'catalog:'
-        version: 14.4.0(vue@3.5.41(typescript@6.0.3))
-      '@vueuse/shared':
-        specifier: 'catalog:'
-        version: 14.4.0(vue@3.5.41(typescript@6.0.3))
-      animejs:
-        specifier: 'catalog:'
-        version: 4.5.0(@types/three@0.185.4)(three@0.185.1)
-      better-auth:
-        specifier: 'catalog:'
-        version: 1.6.25(@opentelemetry/api@1.9.1)(@prisma/client@5.22.0)(better-sqlite3@12.11.1)(drizzle-kit@0.31.10)(drizzle-orm@0.45.2(@electric-sql/pglite@0.5.6)(@opentelemetry/api@1.9.1)(@prisma/client@5.22.0)(@types/pg@8.23.1)(better-sqlite3@12.11.1)(kysely@0.29.5)(pg@8.23.0)(postgres@3.4.9))(pg@8.23.0)(vitest@4.1.11)(vue@3.5.41(typescript@6.0.3))
-      colorjs.io:
-        specifier: 'catalog:'
-        version: 0.7.1
-      culori:
-        specifier: 'catalog:'
-        version: 4.0.2
-      date-fns:
-        specifier: 'catalog:'
-        version: 4.4.0
-      nanoid:
-        specifier: 'catalog:'
-        version: 6.0.1
-      nprogress:
-        specifier: 'catalog:'
-        version: 0.2.0
-      pinia:
-        specifier: 'catalog:'
-        version: 4.0.3(@vue/devtools-api@8.2.1)(typescript@6.0.3)(vue@3.5.41(typescript@6.0.3))
-      posthog-js:
-        specifier: 'catalog:'
-        version: 1.306.1
-      uuid:
-        specifier: 'catalog:'
-        version: 14.0.2
-      vaul-vue:
-        specifier: 'catalog:'
-        version: 0.4.1(reka-ui@2.10.3(vue@3.5.41(typescript@6.0.3)))(vue@3.5.41(typescript@6.0.3))
-      vue:
-        specifier: 'catalog:'
-        version: 3.5.41(typescript@6.0.3)
-      vue-i18n:
-        specifier: 'catalog:'
-        version: 11.4.9(vue@3.5.41(typescript@6.0.3))
-      vue-router:
-        specifier: 'catalog:'
-        version: 5.2.0(@pinia/colada@1.4.2(pinia@4.0.3(@vue/devtools-api@8.2.1)(typescript@6.0.3)(vue@3.5.41(typescript@6.0.3)))(vue@3.5.41(typescript@6.0.3)))(@vue/compiler-sfc@3.5.41)(esbuild@0.28.2)(pinia@4.0.3(@vue/devtools-api@8.2.1)(typescript@6.0.3)(vue@3.5.41(typescript@6.0.3)))(rolldown@1.2.5)(rollup@4.62.5)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(less@4.9.0(supports-color@10.2.2))(terser@5.50.0)(tsx@4.23.12)(yaml@2.9.0))(vue@3.5.41(typescript@6.0.3))
-      vue-sonner:
-        specifier: 'catalog:'
-        version: 2.0.9(@nuxt/kit@3.21.11(magicast@0.5.4))(vue@3.5.41(typescript@6.0.3))
-    devDependencies:
-      '@iconify-json/carbon':
-        specifier: 'catalog:'
-        version: 1.2.25
-      '@iconify-json/eos-icons':
-        specifier: 'catalog:'
-        version: 1.2.4
-      '@iconify-json/logos':
-        specifier: 'catalog:'
-        version: 1.2.13
-      '@iconify-json/lucide':
-        specifier: 'catalog:'
-        version: 1.2.125
-      '@iconify-json/mingcute':
-        specifier: 'catalog:'
-        version: 1.2.8
-      '@iconify-json/ph':
-        specifier: 'catalog:'
-        version: 1.2.2
-      '@iconify-json/simple-icons':
-        specifier: 'catalog:'
-        version: 1.2.93
-      '@iconify-json/solar':
-        specifier: 'catalog:'
-        version: 1.2.9
-      '@iconify-json/svg-spinners':
-        specifier: 'catalog:'
-        version: 1.2.4
-      '@iconify-json/tabler':
-        specifier: 'catalog:'
-        version: 1.2.38
-      '@iconify-json/vscode-icons':
-        specifier: 'catalog:'
-        version: 1.2.74
-      '@intlify/unplugin-vue-i18n':
-        specifier: 'catalog:'
-        version: 11.2.5(@vue/compiler-dom@3.5.41)(eslint@10.9.0(jiti@2.7.0)(supports-color@10.2.2))(rollup@4.62.5)(supports-color@10.2.2)(typescript@6.0.3)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(less@4.9.0(supports-color@10.2.2))(terser@5.50.0)(tsx@4.23.12)(yaml@2.9.0))(vue-i18n@11.4.9(vue@3.5.41(typescript@6.0.3)))(vue@3.5.41(typescript@6.0.3))
-      '@proj-airi/iconify-meteocons':
-        specifier: 'catalog:'
-        version: 0.1.5
-      '@proj-airi/lobe-icons':
-        specifier: 'catalog:'
-        version: 1.0.19
-      '@shikijs/markdown-it':
-        specifier: 'catalog:'
-        version: 4.4.3
-      '@types/culori':
-        specifier: 'catalog:'
-        version: 4.0.1
-      '@types/nprogress':
-        specifier: 'catalog:'
-        version: 0.2.3
-      '@types/splitpanes':
-        specifier: 'catalog:'
-        version: 2.2.6
-      '@unocss/reset':
-        specifier: 'catalog:'
-        version: 66.7.5
-      '@vitejs/plugin-vue':
-        specifier: 'catalog:'
-        version: 6.0.8(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(less@4.9.0(supports-color@10.2.2))(terser@5.50.0)(tsx@4.23.12)(yaml@2.9.0))(vue@3.5.41(typescript@6.0.3))
-      '@vue-macros/volar':
-        specifier: 'catalog:'
-        version: 3.1.4(typescript@6.0.3)(vue-tsc@3.3.11(typescript@6.0.3))(vue@3.5.41(typescript@6.0.3))
-      '@vueuse/motion':
-        specifier: 'catalog:'
-        version: 3.0.3(magicast@0.5.4)(vue@3.5.41(typescript@6.0.3))
-      '@webgpu/types':
-        specifier: 'catalog:'
-        version: 0.1.72
-      unplugin-info:
-        specifier: 'catalog:'
-        version: 1.3.2(@nuxt/kit@3.21.11(magicast@0.5.4))(esbuild@0.28.2)(rollup@4.62.5)(supports-color@10.2.2)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(less@4.9.0(supports-color@10.2.2))(terser@5.50.0)(tsx@4.23.12)(yaml@2.9.0))
-      unplugin-yaml:
-        specifier: 'catalog:'
-        version: 4.2.1(@nuxt/kit@3.21.11(magicast@0.5.4))(esbuild@0.28.2)(rolldown@1.2.5)(rollup@4.62.5)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(less@4.9.0(supports-color@10.2.2))(terser@5.50.0)(tsx@4.23.12)(yaml@2.9.0))
-      vite:
-        specifier: 'catalog:'
-        version: 8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(less@4.9.0(supports-color@10.2.2))(terser@5.50.0)(tsx@4.23.12)(yaml@2.9.0)
       vite-plugin-vue-devtools:
         specifier: 'catalog:'
         version: 8.2.1(@nuxt/kit@3.21.11(magicast@0.5.4))(supports-color@10.2.2)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(less@4.9.0(supports-color@10.2.2))(terser@5.50.0)(tsx@4.23.12)(yaml@2.9.0))(vue@3.5.41(typescript@6.0.3))
@@ -4958,6 +4313,51 @@ importers:
       '@moeru/std':
         specifier: 'catalog:'
         version: 0.1.0-beta.17
+      '@pixi-spine/base':
+        specifier: 3.1.2
+        version: 3.1.2(5d114b8c5867f6064884e45ddf62524e)
+      '@pixi-spine/runtime-3.8':
+        specifier: 'catalog:'
+        version: 3.1.2(5d114b8c5867f6064884e45ddf62524e)
+      '@pixi/app':
+        specifier: 'catalog:'
+        version: 6.5.10(@pixi/core@6.5.10(@pixi/constants@6.5.10)(@pixi/extensions@6.5.10)(@pixi/math@6.5.10)(@pixi/runner@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))(@pixi/ticker@6.5.10(@pixi/extensions@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10)))(@pixi/utils@6.5.10(@pixi/constants@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))))(@pixi/display@6.5.10(@pixi/constants@6.5.10)(@pixi/math@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))(@pixi/utils@6.5.10(@pixi/constants@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))))(@pixi/math@6.5.10)(@pixi/utils@6.5.10(@pixi/constants@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10)))
+      '@pixi/constants':
+        specifier: 'catalog:'
+        version: 6.5.10
+      '@pixi/core':
+        specifier: 'catalog:'
+        version: 6.5.10(@pixi/constants@6.5.10)(@pixi/extensions@6.5.10)(@pixi/math@6.5.10)(@pixi/runner@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))(@pixi/ticker@6.5.10(@pixi/extensions@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10)))(@pixi/utils@6.5.10(@pixi/constants@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10)))
+      '@pixi/display':
+        specifier: 'catalog:'
+        version: 6.5.10(@pixi/constants@6.5.10)(@pixi/math@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))(@pixi/utils@6.5.10(@pixi/constants@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10)))
+      '@pixi/extensions':
+        specifier: 'catalog:'
+        version: 6.5.10
+      '@pixi/interaction':
+        specifier: 'catalog:'
+        version: 6.5.10(@pixi/core@6.5.10(@pixi/constants@6.5.10)(@pixi/extensions@6.5.10)(@pixi/math@6.5.10)(@pixi/runner@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))(@pixi/ticker@6.5.10(@pixi/extensions@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10)))(@pixi/utils@6.5.10(@pixi/constants@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))))(@pixi/display@6.5.10(@pixi/constants@6.5.10)(@pixi/math@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))(@pixi/utils@6.5.10(@pixi/constants@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))))(@pixi/math@6.5.10)(@pixi/ticker@6.5.10(@pixi/extensions@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10)))(@pixi/utils@6.5.10(@pixi/constants@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10)))
+      '@pixi/loaders':
+        specifier: 'catalog:'
+        version: 6.5.10(@pixi/constants@6.5.10)(@pixi/core@6.5.10(@pixi/constants@6.5.10)(@pixi/extensions@6.5.10)(@pixi/math@6.5.10)(@pixi/runner@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))(@pixi/ticker@6.5.10(@pixi/extensions@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10)))(@pixi/utils@6.5.10(@pixi/constants@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))))(@pixi/utils@6.5.10(@pixi/constants@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10)))
+      '@pixi/math':
+        specifier: 'catalog:'
+        version: 6.5.10
+      '@pixi/runner':
+        specifier: 'catalog:'
+        version: 6.5.10
+      '@pixi/settings':
+        specifier: 'catalog:'
+        version: 6.5.10(@pixi/constants@6.5.10)
+      '@pixi/sprite':
+        specifier: 'catalog:'
+        version: 6.5.10(@pixi/constants@6.5.10)(@pixi/core@6.5.10(@pixi/constants@6.5.10)(@pixi/extensions@6.5.10)(@pixi/math@6.5.10)(@pixi/runner@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))(@pixi/ticker@6.5.10(@pixi/extensions@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10)))(@pixi/utils@6.5.10(@pixi/constants@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))))(@pixi/display@6.5.10(@pixi/constants@6.5.10)(@pixi/math@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))(@pixi/utils@6.5.10(@pixi/constants@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))))(@pixi/math@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))(@pixi/utils@6.5.10(@pixi/constants@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10)))
+      '@pixi/ticker':
+        specifier: 'catalog:'
+        version: 6.5.10(@pixi/extensions@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))
+      '@pixi/utils':
+        specifier: 'catalog:'
+        version: 6.5.10(@pixi/constants@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))
       '@proj-airi/stage-shared':
         specifier: workspace:^
         version: link:../stage-shared
@@ -4979,6 +4379,9 @@ importers:
       pinia:
         specifier: 'catalog:'
         version: 4.0.3(@vue/devtools-api@8.2.1)(typescript@6.0.3)(vue@3.5.41(typescript@6.0.3))
+      pixi-spine:
+        specifier: 'catalog:'
+        version: 3.1.2(f9e802fb4d1b14861107c04cb5e9d15f)
       vue:
         specifier: 'catalog:'
         version: 3.5.41(typescript@6.0.3)
@@ -6738,38 +6141,10 @@ packages:
   '@bufbuild/protobuf@2.14.0':
     resolution: {integrity: sha512-C3UGsiCwSprE2NKIIFA3hCDlpXTMCAXRZuEVp88L1GY36Y41+rYL5fryE+nOFhp4p4JPQvdV8PQ4DWgHgeTE+w==}
 
-  '@capacitor/android@8.5.0':
-    resolution: {integrity: sha512-Rb3prJeQiTp0pQhSSOReJuG9VgibOGMG4ECs+UhMwr6TCCHZ3NCZO811bDA0HxD0xrT/gCrJAsY5yfEATu84JQ==}
-    peerDependencies:
-      '@capacitor/core': ^8.5.0
-
-  '@capacitor/app@8.1.1':
-    resolution: {integrity: sha512-xM2ZTX5jK60tFtmjsmJv+Cdj1Qsb6NcavkqmdEnCPQBeya9oKhamZJxYOnQNj1ZvcJM7sWfG6BEtSLx42pisbA==}
-    peerDependencies:
-      '@capacitor/core': '>=8.0.0'
-
-  '@capacitor/barcode-scanner@3.1.1':
-    resolution: {integrity: sha512-IftToRn2YTirzw2K8nkp+p7Mcq41vwcZyqcSYLUeyMbznJS2IbEj1snbRIcTXa+iSuAU6zKY7tNXzwDqyzcx+Q==}
-    peerDependencies:
-      '@capacitor/core': '>=8.0.0'
-
   '@capacitor/cli@8.5.0':
     resolution: {integrity: sha512-rLdzMUM5QV4WITcqoWv04p32i14BXgUH2diqEH6MWQlWaJfiyNrvOyt/+d5vHAfOxOm1klBu637VDEobctlwBA==}
     engines: {node: '>=22.0.0'}
     hasBin: true
-
-  '@capacitor/core@8.5.0':
-    resolution: {integrity: sha512-Ca4krtqH1hothjtBIwf2J2TW7IhYq1ujp8QeItTiJohNsqij8ja2DYYH3DU0l8RmxCWaBAFTGA2TgOgOMCSNsQ==}
-
-  '@capacitor/ios@8.5.0':
-    resolution: {integrity: sha512-7k1TfohJu5BzRXc1F3g04Q8QQ0fyQgms6h1AvhnHb04VaNr9EdHOx03hL8O+OigEKMQnyJd1ZOjTPPNHCqL5Yw==}
-    peerDependencies:
-      '@capacitor/core': ^8.5.0
-
-  '@capacitor/local-notifications@8.3.1':
-    resolution: {integrity: sha512-F7zu/+p/mIR958YP4axOkeI5hBKRaXDyYjbNPrAil2wWfd7OxScPSTvP9t85NpQ0eULVRu0/sntoxOg6ck477A==}
-    peerDependencies:
-      '@capacitor/core': '>=8.0.0'
 
   '@chevrotain/cst-dts-gen@10.5.0':
     resolution: {integrity: sha512-lhmC/FyqQ2o7pGK4Om+hzuDrm9rhFYIJ/AXoQBeongmn870Xeb0L6oGEiuR8nohFNL5sMaQEJWCxr1oIVIVXrw==}
@@ -10069,6 +9444,49 @@ packages:
     peerDependencies:
       pinia: '>=4.0.2'
 
+  '@pixi-spine/base@3.1.2':
+    resolution: {integrity: sha512-sMOZsCJQW4O11QR7afuHcuu8cSUgJv3paSNzZOh+imxvYB/cOcyG7K+f5sWqlGe+z3J2CLEYCX2WfXeeJi6pHg==}
+    peerDependencies:
+      '@pixi/constants': ^6.1.0
+      '@pixi/core': ^6.1.0
+      '@pixi/display': ^6.1.0
+      '@pixi/graphics': ^6.1.0
+      '@pixi/math': ^6.1.0
+      '@pixi/mesh': ^6.1.0
+      '@pixi/mesh-extras': ^6.1.0
+      '@pixi/sprite': ^6.1.0
+      '@pixi/utils': ^6.1.0
+
+  '@pixi-spine/loader-base@3.1.2':
+    resolution: {integrity: sha512-llg0RuuWiqVkyoQA+ceORV0sfUtrWGJj4jQ6erDFn2hMnob+QGzh+qwHSTMAnTNZTINEMfiUxmcwbmUYwTd8Ag==}
+    peerDependencies:
+      '@pixi/constants': ^6.1.0
+      '@pixi/core': ^6.1.0
+      '@pixi/loaders': ^6.1.0
+
+  '@pixi-spine/loader-uni@3.1.2':
+    resolution: {integrity: sha512-5th9gXqNQWMSuOu3euMw2kHETlncxU7LIFvOYqTMsKnwrOAIsPjHSF/4Sat1d3EAvvdMrYm4LmhHklgrAfk6UA==}
+    peerDependencies:
+      '@pixi/loaders': ^6.1.0
+
+  '@pixi-spine/runtime-3.7@3.1.2':
+    resolution: {integrity: sha512-dMcw5x9jG+0itzzbPsJUn8hvhxzRXRzbm/kCUQ51iyFfLZQIK1LoPck4XPVuXckwFjU1qCT+tDZSEGBMYs5//A==}
+    peerDependencies:
+      '@pixi/constants': ^6.1.0
+      '@pixi/math': ^6.1.0
+
+  '@pixi-spine/runtime-3.8@3.1.2':
+    resolution: {integrity: sha512-AgS3mUC+5HQ/ehJO5Wo4oBoLg8F+tssF5WXi3FnnjqOaMcO+Ag232ForoL2iYHW40TKx0xMi5MpXsSafgS1i1A==}
+    peerDependencies:
+      '@pixi/constants': ^6.1.0
+      '@pixi/math': ^6.1.0
+
+  '@pixi-spine/runtime-4.1@3.1.2':
+    resolution: {integrity: sha512-XtaKAuLTtJ3o3llcUTr0d94dnRTyYHlss+x4VsYm1H38r4DUmQTBS13nisW0pgS3fY60D8AbEJkYVW7mwokxag==}
+    peerDependencies:
+      '@pixi/constants': ^6.1.0
+      '@pixi/math': ^6.1.0
+
   '@pixi/app@6.5.10':
     resolution: {integrity: sha512-VsNHLajZ5Dbc/Zrj7iWmIl3eu6Fec+afjW/NXXezD8Sp3nTDF0bv5F+GDgN/zSc2gqIvPHyundImT7hQGBDghg==}
     peerDependencies:
@@ -10320,6 +9738,16 @@ packages:
       '@pixi/core': ^6.0.0
       '@pixi/math': ^6.0.0
 
+  '@pixi/graphics@6.5.10':
+    resolution: {integrity: sha512-KPHGJ910fi8bRQQ+VcTIgrK+bKIm8yAQaZKPqMtm14HzHPGcES6HkgeNY1sd7m8J4aS9btm5wOSyFu0p5IzTpA==}
+    peerDependencies:
+      '@pixi/constants': 6.5.10
+      '@pixi/core': 6.5.10
+      '@pixi/display': 6.5.10
+      '@pixi/math': 6.5.10
+      '@pixi/sprite': 6.5.10
+      '@pixi/utils': 6.5.10
+
   '@pixi/interaction@6.5.10':
     resolution: {integrity: sha512-v809pJmXA2B9dV/vdrDMUqJT+fBB/ARZli2YRmI2dPbEbkaYr8FNmxCAJnwT8o+ymTx044Ie820hn9tVrtMtfA==}
     peerDependencies:
@@ -10338,6 +9766,25 @@ packages:
 
   '@pixi/math@6.5.10':
     resolution: {integrity: sha512-fxeu7ykVbMGxGV2S3qRTupHToeo1hdWBm8ihyURn3BMqJZe2SkZEECPd5RyvIuuNUtjRnmhkZRnF3Jsz2S+L0g==}
+
+  '@pixi/mesh-extras@6.5.10':
+    resolution: {integrity: sha512-UCG7OOPPFeikrX09haCibCMR0jPQ4UJ+4HiYiAv/3dahq5eEzBx+yAwVtxcVCjonkTf/lu5SzmHdzpsbHLx5aw==}
+    peerDependencies:
+      '@pixi/constants': 6.5.10
+      '@pixi/core': 6.5.10
+      '@pixi/math': 6.5.10
+      '@pixi/mesh': 6.5.10
+      '@pixi/utils': 6.5.10
+
+  '@pixi/mesh@6.5.10':
+    resolution: {integrity: sha512-tUNPsdp5/t/yRsCmfxIcufIfbQVzgAlMNgQ1igWOkSxzhB7vlEbZ8ZLLW5tQcNyM/r7Nhjz+RoB+RD+/BCtvlA==}
+    peerDependencies:
+      '@pixi/constants': 6.5.10
+      '@pixi/core': 6.5.10
+      '@pixi/display': 6.5.10
+      '@pixi/math': 6.5.10
+      '@pixi/settings': 6.5.10
+      '@pixi/utils': 6.5.10
 
   '@pixi/runner@6.5.10':
     resolution: {integrity: sha512-4HiHp6diCmigJT/DSbnqQP62OfWKmZB7zPWMdV1AEdr4YT1QxzXAW1wHg7dkoEfyTHqZKl0tm/zcqKq/iH7tMA==}
@@ -13164,11 +12611,6 @@ packages:
     resolution: {integrity: sha512-PzE5nJZPz72YUAfo8oTp0u3fqqY7IzlTubneAihqDYAUcBk7ryeCmBbdJBEdaH0bptSOe2VT2Zwcb3UaFyaSWw==}
     engines: {node: ^18.12.0 || >= 20.9.0}
 
-  capacitor-native-settings@8.2.0:
-    resolution: {integrity: sha512-jqklDll5YFvPpt2SI+wa+oMy0ykvWESSclDMhSI/t1TvJDnomATa7Iz0eE219DY/6pJxRhI7+8RYE0ePtAYxAw==}
-    peerDependencies:
-      '@capacitor/core': '>=8.0.2'
-
   caseless@0.12.0:
     resolution: {integrity: sha512-4tYFyifaFfGacoiObjJegolkwSU4xQNGbVgUiNYVUxbQ2x2lUsFvY4hVgVzGiIe6WLOPqycWXA40l+PWsxthUw==}
 
@@ -15351,9 +14793,6 @@ packages:
     resolution: {integrity: sha512-fPU6BHNpsyIhr8yyMpTLLxAbkaK8ArIBcmZIRiBLiDhjeqvXolaEmDGmELFuX9I4xDcaKKcJl+TKZLqruBbmWA==}
     engines: {node: '>=8.0.0'}
 
-  html5-qrcode@2.3.8:
-    resolution: {integrity: sha512-jsr4vafJhwoLVEDW3n1KvPnCCXWaQfRng0/EEYk1vNcQGcG/htAdhJX0be8YyqMoSz7+hZvOZSTAepsabiuhiQ==}
-
   htmlparser2@10.1.0:
     resolution: {integrity: sha512-VTZkM9GWRAtEpveh7MSF6SjjrpNVNNVJfFup7xTY3UpFtm67foy9HDVXneLtFVt4pMz5kZtgNcvCniNFb1hlEQ==}
 
@@ -17091,6 +16530,9 @@ packages:
       '@pixi/math': ^6
       '@pixi/sprite': ^6
       '@pixi/utils': ^6
+
+  pixi-spine@3.1.2:
+    resolution: {integrity: sha512-rTTwXhBl5gZFZ793zdM/to0bifU8K4aa1gD0ilOiCqC/pgw5OxCcKnoRW3i05ythjzI3GlN6G0MDblOe2myr3w==}
 
   pkce-challenge@5.0.1:
     resolution: {integrity: sha512-wQ0b/W4Fr01qtpHlqSqspcj3EhBvimsdh0KlHhH8HRZnMsEa0ea2fTULOXOS9ccQr3om+GcGRk4e+isrZWV8qQ==}
@@ -21212,19 +20654,6 @@ snapshots:
 
   '@bufbuild/protobuf@2.14.0': {}
 
-  '@capacitor/android@8.5.0(@capacitor/core@8.5.0)':
-    dependencies:
-      '@capacitor/core': 8.5.0
-
-  '@capacitor/app@8.1.1(@capacitor/core@8.5.0)':
-    dependencies:
-      '@capacitor/core': 8.5.0
-
-  '@capacitor/barcode-scanner@3.1.1(@capacitor/core@8.5.0)':
-    dependencies:
-      '@capacitor/core': 8.5.0
-      html5-qrcode: 2.3.8
-
   '@capacitor/cli@8.5.0(supports-color@10.2.2)':
     dependencies:
       '@ionic/cli-framework-output': 2.2.8(supports-color@10.2.2)
@@ -21247,18 +20676,6 @@ snapshots:
       xml2js: 0.6.2
     transitivePeerDependencies:
       - supports-color
-
-  '@capacitor/core@8.5.0':
-    dependencies:
-      tslib: 2.8.1
-
-  '@capacitor/ios@8.5.0(@capacitor/core@8.5.0)':
-    dependencies:
-      '@capacitor/core': 8.5.0
-
-  '@capacitor/local-notifications@8.3.1(@capacitor/core@8.5.0)':
-    dependencies:
-      '@capacitor/core': 8.5.0
 
   '@chevrotain/cst-dts-gen@10.5.0':
     dependencies:
@@ -24234,6 +23651,94 @@ snapshots:
       nostics: 1.2.0
       pinia: 4.0.3(@vue/devtools-api@8.2.1)(typescript@6.0.3)(vue@3.5.41(typescript@6.0.3))
 
+  '@pixi-spine/base@3.1.2(5d114b8c5867f6064884e45ddf62524e)':
+    dependencies:
+      '@pixi/constants': 6.5.10
+      '@pixi/core': 6.5.10(@pixi/constants@6.5.10)(@pixi/extensions@6.5.10)(@pixi/math@6.5.10)(@pixi/runner@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))(@pixi/ticker@6.5.10(@pixi/extensions@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10)))(@pixi/utils@6.5.10(@pixi/constants@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10)))
+      '@pixi/display': 6.5.10(@pixi/constants@6.5.10)(@pixi/math@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))(@pixi/utils@6.5.10(@pixi/constants@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10)))
+      '@pixi/graphics': 6.5.10(c55a75de8bffd276cb9973c41dee4f49)
+      '@pixi/math': 6.5.10
+      '@pixi/mesh': 6.5.10(@pixi/constants@6.5.10)(@pixi/core@6.5.10(@pixi/constants@6.5.10)(@pixi/extensions@6.5.10)(@pixi/math@6.5.10)(@pixi/runner@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))(@pixi/ticker@6.5.10(@pixi/extensions@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10)))(@pixi/utils@6.5.10(@pixi/constants@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))))(@pixi/display@6.5.10(@pixi/constants@6.5.10)(@pixi/math@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))(@pixi/utils@6.5.10(@pixi/constants@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))))(@pixi/math@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))(@pixi/utils@6.5.10(@pixi/constants@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10)))
+      '@pixi/mesh-extras': 6.5.10(c8c7e4132c34cde3ba1b181daa9a3d88)
+      '@pixi/sprite': 6.5.10(@pixi/constants@6.5.10)(@pixi/core@6.5.10(@pixi/constants@6.5.10)(@pixi/extensions@6.5.10)(@pixi/math@6.5.10)(@pixi/runner@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))(@pixi/ticker@6.5.10(@pixi/extensions@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10)))(@pixi/utils@6.5.10(@pixi/constants@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))))(@pixi/display@6.5.10(@pixi/constants@6.5.10)(@pixi/math@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))(@pixi/utils@6.5.10(@pixi/constants@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))))(@pixi/math@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))(@pixi/utils@6.5.10(@pixi/constants@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10)))
+      '@pixi/utils': 6.5.10(@pixi/constants@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))
+
+  '@pixi-spine/loader-base@3.1.2(f9e802fb4d1b14861107c04cb5e9d15f)':
+    dependencies:
+      '@pixi-spine/base': 3.1.2(5d114b8c5867f6064884e45ddf62524e)
+      '@pixi/constants': 6.5.10
+      '@pixi/core': 6.5.10(@pixi/constants@6.5.10)(@pixi/extensions@6.5.10)(@pixi/math@6.5.10)(@pixi/runner@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))(@pixi/ticker@6.5.10(@pixi/extensions@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10)))(@pixi/utils@6.5.10(@pixi/constants@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10)))
+      '@pixi/loaders': 6.5.10(@pixi/constants@6.5.10)(@pixi/core@6.5.10(@pixi/constants@6.5.10)(@pixi/extensions@6.5.10)(@pixi/math@6.5.10)(@pixi/runner@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))(@pixi/ticker@6.5.10(@pixi/extensions@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10)))(@pixi/utils@6.5.10(@pixi/constants@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))))(@pixi/utils@6.5.10(@pixi/constants@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10)))
+    transitivePeerDependencies:
+      - '@pixi/display'
+      - '@pixi/graphics'
+      - '@pixi/math'
+      - '@pixi/mesh'
+      - '@pixi/mesh-extras'
+      - '@pixi/sprite'
+      - '@pixi/utils'
+
+  '@pixi-spine/loader-uni@3.1.2(f9e802fb4d1b14861107c04cb5e9d15f)':
+    dependencies:
+      '@pixi-spine/base': 3.1.2(5d114b8c5867f6064884e45ddf62524e)
+      '@pixi-spine/loader-base': 3.1.2(f9e802fb4d1b14861107c04cb5e9d15f)
+      '@pixi-spine/runtime-3.7': 3.1.2(5d114b8c5867f6064884e45ddf62524e)
+      '@pixi-spine/runtime-3.8': 3.1.2(5d114b8c5867f6064884e45ddf62524e)
+      '@pixi-spine/runtime-4.1': 3.1.2(5d114b8c5867f6064884e45ddf62524e)
+      '@pixi/loaders': 6.5.10(@pixi/constants@6.5.10)(@pixi/core@6.5.10(@pixi/constants@6.5.10)(@pixi/extensions@6.5.10)(@pixi/math@6.5.10)(@pixi/runner@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))(@pixi/ticker@6.5.10(@pixi/extensions@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10)))(@pixi/utils@6.5.10(@pixi/constants@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))))(@pixi/utils@6.5.10(@pixi/constants@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10)))
+    transitivePeerDependencies:
+      - '@pixi/constants'
+      - '@pixi/core'
+      - '@pixi/display'
+      - '@pixi/graphics'
+      - '@pixi/math'
+      - '@pixi/mesh'
+      - '@pixi/mesh-extras'
+      - '@pixi/sprite'
+      - '@pixi/utils'
+
+  '@pixi-spine/runtime-3.7@3.1.2(5d114b8c5867f6064884e45ddf62524e)':
+    dependencies:
+      '@pixi-spine/base': 3.1.2(5d114b8c5867f6064884e45ddf62524e)
+      '@pixi/constants': 6.5.10
+      '@pixi/math': 6.5.10
+    transitivePeerDependencies:
+      - '@pixi/core'
+      - '@pixi/display'
+      - '@pixi/graphics'
+      - '@pixi/mesh'
+      - '@pixi/mesh-extras'
+      - '@pixi/sprite'
+      - '@pixi/utils'
+
+  '@pixi-spine/runtime-3.8@3.1.2(5d114b8c5867f6064884e45ddf62524e)':
+    dependencies:
+      '@pixi-spine/base': 3.1.2(5d114b8c5867f6064884e45ddf62524e)
+      '@pixi/constants': 6.5.10
+      '@pixi/math': 6.5.10
+    transitivePeerDependencies:
+      - '@pixi/core'
+      - '@pixi/display'
+      - '@pixi/graphics'
+      - '@pixi/mesh'
+      - '@pixi/mesh-extras'
+      - '@pixi/sprite'
+      - '@pixi/utils'
+
+  '@pixi-spine/runtime-4.1@3.1.2(5d114b8c5867f6064884e45ddf62524e)':
+    dependencies:
+      '@pixi-spine/base': 3.1.2(5d114b8c5867f6064884e45ddf62524e)
+      '@pixi/constants': 6.5.10
+      '@pixi/math': 6.5.10
+    transitivePeerDependencies:
+      - '@pixi/core'
+      - '@pixi/display'
+      - '@pixi/graphics'
+      - '@pixi/mesh'
+      - '@pixi/mesh-extras'
+      - '@pixi/sprite'
+      - '@pixi/utils'
+
   '@pixi/app@6.5.10(@pixi/core@6.5.10(@pixi/constants@6.5.10)(@pixi/extensions@6.5.10)(@pixi/math@6.5.10)(@pixi/runner@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))(@pixi/ticker@6.5.10(@pixi/extensions@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10)))(@pixi/utils@6.5.10(@pixi/constants@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))))(@pixi/display@6.5.10(@pixi/constants@6.5.10)(@pixi/math@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))(@pixi/utils@6.5.10(@pixi/constants@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))))(@pixi/math@6.5.10)(@pixi/utils@6.5.10(@pixi/constants@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10)))':
     dependencies:
       '@pixi/core': 6.5.10(@pixi/constants@6.5.10)(@pixi/extensions@6.5.10)(@pixi/math@6.5.10)(@pixi/runner@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))(@pixi/ticker@6.5.10(@pixi/extensions@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10)))(@pixi/utils@6.5.10(@pixi/constants@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10)))
@@ -24451,6 +23956,15 @@ snapshots:
       '@pixi/core': 6.5.10(@pixi/constants@6.5.10)(@pixi/extensions@6.5.10)(@pixi/math@6.5.10)(@pixi/runner@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))(@pixi/ticker@6.5.10(@pixi/extensions@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10)))(@pixi/utils@6.5.10(@pixi/constants@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10)))
       '@pixi/math': 6.5.10
 
+  '@pixi/graphics@6.5.10(c55a75de8bffd276cb9973c41dee4f49)':
+    dependencies:
+      '@pixi/constants': 6.5.10
+      '@pixi/core': 6.5.10(@pixi/constants@6.5.10)(@pixi/extensions@6.5.10)(@pixi/math@6.5.10)(@pixi/runner@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))(@pixi/ticker@6.5.10(@pixi/extensions@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10)))(@pixi/utils@6.5.10(@pixi/constants@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10)))
+      '@pixi/display': 6.5.10(@pixi/constants@6.5.10)(@pixi/math@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))(@pixi/utils@6.5.10(@pixi/constants@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10)))
+      '@pixi/math': 6.5.10
+      '@pixi/sprite': 6.5.10(@pixi/constants@6.5.10)(@pixi/core@6.5.10(@pixi/constants@6.5.10)(@pixi/extensions@6.5.10)(@pixi/math@6.5.10)(@pixi/runner@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))(@pixi/ticker@6.5.10(@pixi/extensions@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10)))(@pixi/utils@6.5.10(@pixi/constants@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))))(@pixi/display@6.5.10(@pixi/constants@6.5.10)(@pixi/math@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))(@pixi/utils@6.5.10(@pixi/constants@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))))(@pixi/math@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))(@pixi/utils@6.5.10(@pixi/constants@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10)))
+      '@pixi/utils': 6.5.10(@pixi/constants@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))
+
   '@pixi/interaction@6.5.10(@pixi/core@6.5.10(@pixi/constants@6.5.10)(@pixi/extensions@6.5.10)(@pixi/math@6.5.10)(@pixi/runner@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))(@pixi/ticker@6.5.10(@pixi/extensions@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10)))(@pixi/utils@6.5.10(@pixi/constants@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))))(@pixi/display@6.5.10(@pixi/constants@6.5.10)(@pixi/math@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))(@pixi/utils@6.5.10(@pixi/constants@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))))(@pixi/math@6.5.10)(@pixi/ticker@6.5.10(@pixi/extensions@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10)))(@pixi/utils@6.5.10(@pixi/constants@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10)))':
     dependencies:
       '@pixi/core': 6.5.10(@pixi/constants@6.5.10)(@pixi/extensions@6.5.10)(@pixi/math@6.5.10)(@pixi/runner@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))(@pixi/ticker@6.5.10(@pixi/extensions@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10)))(@pixi/utils@6.5.10(@pixi/constants@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10)))
@@ -24466,6 +23980,23 @@ snapshots:
       '@pixi/utils': 6.5.10(@pixi/constants@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))
 
   '@pixi/math@6.5.10': {}
+
+  '@pixi/mesh-extras@6.5.10(c8c7e4132c34cde3ba1b181daa9a3d88)':
+    dependencies:
+      '@pixi/constants': 6.5.10
+      '@pixi/core': 6.5.10(@pixi/constants@6.5.10)(@pixi/extensions@6.5.10)(@pixi/math@6.5.10)(@pixi/runner@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))(@pixi/ticker@6.5.10(@pixi/extensions@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10)))(@pixi/utils@6.5.10(@pixi/constants@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10)))
+      '@pixi/math': 6.5.10
+      '@pixi/mesh': 6.5.10(@pixi/constants@6.5.10)(@pixi/core@6.5.10(@pixi/constants@6.5.10)(@pixi/extensions@6.5.10)(@pixi/math@6.5.10)(@pixi/runner@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))(@pixi/ticker@6.5.10(@pixi/extensions@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10)))(@pixi/utils@6.5.10(@pixi/constants@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))))(@pixi/display@6.5.10(@pixi/constants@6.5.10)(@pixi/math@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))(@pixi/utils@6.5.10(@pixi/constants@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))))(@pixi/math@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))(@pixi/utils@6.5.10(@pixi/constants@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10)))
+      '@pixi/utils': 6.5.10(@pixi/constants@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))
+
+  '@pixi/mesh@6.5.10(@pixi/constants@6.5.10)(@pixi/core@6.5.10(@pixi/constants@6.5.10)(@pixi/extensions@6.5.10)(@pixi/math@6.5.10)(@pixi/runner@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))(@pixi/ticker@6.5.10(@pixi/extensions@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10)))(@pixi/utils@6.5.10(@pixi/constants@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))))(@pixi/display@6.5.10(@pixi/constants@6.5.10)(@pixi/math@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))(@pixi/utils@6.5.10(@pixi/constants@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))))(@pixi/math@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))(@pixi/utils@6.5.10(@pixi/constants@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10)))':
+    dependencies:
+      '@pixi/constants': 6.5.10
+      '@pixi/core': 6.5.10(@pixi/constants@6.5.10)(@pixi/extensions@6.5.10)(@pixi/math@6.5.10)(@pixi/runner@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))(@pixi/ticker@6.5.10(@pixi/extensions@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10)))(@pixi/utils@6.5.10(@pixi/constants@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10)))
+      '@pixi/display': 6.5.10(@pixi/constants@6.5.10)(@pixi/math@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))(@pixi/utils@6.5.10(@pixi/constants@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10)))
+      '@pixi/math': 6.5.10
+      '@pixi/settings': 6.5.10(@pixi/constants@6.5.10)
+      '@pixi/utils': 6.5.10(@pixi/constants@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))
 
   '@pixi/runner@6.5.10': {}
 
@@ -27560,10 +27091,6 @@ snapshots:
       node-addon-api: 7.1.1
       prebuild-install: 7.1.3
 
-  capacitor-native-settings@8.2.0(@capacitor/core@8.5.0):
-    dependencies:
-      '@capacitor/core': 8.5.0
-
   caseless@0.12.0: {}
 
   ccount@2.0.1: {}
@@ -30045,8 +29572,6 @@ snapshots:
       css-line-break: 2.1.0
       text-segmentation: 1.0.3
 
-  html5-qrcode@2.3.8: {}
-
   htmlparser2@10.1.0:
     dependencies:
       domelementtype: 2.3.0
@@ -32253,6 +31778,26 @@ snapshots:
       '@pixi/sprite': 6.5.10(@pixi/constants@6.5.10)(@pixi/core@6.5.10(@pixi/constants@6.5.10)(@pixi/extensions@6.5.10)(@pixi/math@6.5.10)(@pixi/runner@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))(@pixi/ticker@6.5.10(@pixi/extensions@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10)))(@pixi/utils@6.5.10(@pixi/constants@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))))(@pixi/display@6.5.10(@pixi/constants@6.5.10)(@pixi/math@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))(@pixi/utils@6.5.10(@pixi/constants@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))))(@pixi/math@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))(@pixi/utils@6.5.10(@pixi/constants@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10)))
       '@pixi/utils': 6.5.10(@pixi/constants@6.5.10)(@pixi/settings@6.5.10(@pixi/constants@6.5.10))
       gh-pages: 4.0.0
+
+  pixi-spine@3.1.2(f9e802fb4d1b14861107c04cb5e9d15f):
+    dependencies:
+      '@pixi-spine/base': 3.1.2(5d114b8c5867f6064884e45ddf62524e)
+      '@pixi-spine/loader-base': 3.1.2(f9e802fb4d1b14861107c04cb5e9d15f)
+      '@pixi-spine/loader-uni': 3.1.2(f9e802fb4d1b14861107c04cb5e9d15f)
+      '@pixi-spine/runtime-3.7': 3.1.2(5d114b8c5867f6064884e45ddf62524e)
+      '@pixi-spine/runtime-3.8': 3.1.2(5d114b8c5867f6064884e45ddf62524e)
+      '@pixi-spine/runtime-4.1': 3.1.2(5d114b8c5867f6064884e45ddf62524e)
+    transitivePeerDependencies:
+      - '@pixi/constants'
+      - '@pixi/core'
+      - '@pixi/display'
+      - '@pixi/graphics'
+      - '@pixi/loaders'
+      - '@pixi/math'
+      - '@pixi/mesh'
+      - '@pixi/mesh-extras'
+      - '@pixi/sprite'
+      - '@pixi/utils'
 
   pkce-challenge@5.0.1: {}
 

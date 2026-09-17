@@ -222,13 +222,18 @@ const lipSyncLoopId = ref<number>()
 const live2dLipSync = ref<Live2DLipSync>()
 const live2dLipSyncOptions: Live2DLipSyncOptions = { mouthUpdateIntervalMs: 50, mouthLerpWindowMs: 50 }
 
-function resetAssistantSpeechSurface(source: string) {
+function resetAssistantSpeechSurface(source: string, { clearCaption = true }: { clearCaption?: boolean } = {}) {
   nowSpeaking.value = false
   mouthOpenSize.value = 0
   assistantCaption.value = ''
 
+  // 指挥官 2026-09-17：指挥官发消息时不要把上一条字幕擦掉 ——
+  // 上一段话留到"下一句真的说出来"再被顶替（见 caption.vue 的淡出淡入）。
+  if (!clearCaption)
+    return
+
   try {
-    postCaption({ type: 'caption-assistant', text: '' })
+    postCaption({ type: 'caption-assistant', text: '', operation: 'replace' })
   }
   catch (error) {
     console.warn(`[Stage] Failed to post caption reset for ${source} (channel may be closed)`, { error })
@@ -283,6 +288,20 @@ const emotionsQueue = createQueue<EmotionPayload>({
 })
 
 const streamingControl = useLlmStreamingControlStore()
+
+// 给 albion-pet 用的小口：AIRI 上层会把 <|ACT:{...}|> 从 token 流里洗掉，
+// 所以桌宠里 onTokenLiteral 那条路收不到情绪 —— 由 albion-pet 自己解析后再送进同一个队列。
+// 只对"自带表情分层的渲染器"生效：Live2D 有自己的姿态表（albion-pet 的 POSES），
+// 这里再走一遍两边会打架。
+;(globalThis as any).__albionStageEmotion = (name: string, intensity = 1) => {
+  if (!['spine', 'spine38', 'tachie'].includes(stageModelRenderer.value ?? ''))
+    return false
+  const payload = toStageEmotionPayload({ name, intensity })
+  if (!payload)
+    return false
+  emotionsQueue.enqueue(payload)
+  return true
+}
 
 function toStageEmotionPayload(payload: { name: string, intensity: number }): EmotionPayload | undefined {
   switch (payload.name) {
@@ -606,6 +625,12 @@ function resetSpeakingState() {
   mouthOpenSize.value = 0
 }
 
+// 她"点单看画面"的标记（[[LOOK:xxx]]）不该进字幕、也不该被念出来。
+// 必须在 onTokenLiteral 这一层过滤：albion-pet 里那次轮询太晚（1.2 秒一次），
+// 字幕/TTS 早就把原文播出去了——之前字幕里漏出 [[LOOK:his]] 就是这个抢跑。
+let lookFilterBuf = ''
+const LOOK_TAG_STRIP_RE = /\[\[\s*LOOK\s*[:：]\s*(?:his|mine|cam)\s*\]\]/gi
+
 bindSpeakingStateToPlaybackManager(playbackManager, {
   setSpeaking: (speaking) => {
     if (!speaking)
@@ -617,15 +642,20 @@ bindSpeakingStateToPlaybackManager(playbackManager, {
     // NOTICE: postCaption and postPresent may throw errors if the BroadcastChannel is closed
     // (e.g., when navigating away from the page). We wrap these in try-catch to prevent
     // breaking playback when the channel is unavailable.
-    assistantCaption.value += ` ${item.text}`
+    // 切句器是另一条路（不经过 onTokenLiteral 的过滤），这里再削一遍"点单标记"——
+    // 削完的字幕干净，送到 TTS 的字也干净（之前字幕里漏 [[LOOK: mine]]、语音里也被念出来）。
+    const itemText = item.text.replace(LOOK_TAG_STRIP_RE, '').trim()
+    assistantCaption.value += ` ${itemText}`
     try {
-      postCaption({ type: 'caption-assistant', text: item.text })
+      // 字幕显示"整段话"，只让 TTS 切句器决定刷新时机（原来每切一段就只显示那一段，
+      // 所以看着被切得七零八落；改成 replace + 累积文本 ⇒ 屏幕上是完整一句句长出来的）。
+      postCaption({ type: 'caption-assistant', text: assistantCaption.value.trim(), operation: 'replace' })
     }
     catch {
       // BroadcastChannel may be closed - don't break playback
     }
     try {
-      postPresent({ type: 'assistant-append', text: item.text })
+      postPresent({ type: 'assistant-append', text: itemText })
     }
     catch {
       // BroadcastChannel may be closed - don't break playback
@@ -847,8 +877,9 @@ watch(speechMuted, (muted) => {
 }, { immediate: true })
 
 chatHookCleanups.push(onBeforeMessageComposed(async (_message, context) => {
+  lookFilterBuf = '' // 新的一轮，别把上一轮的半截标记带过来
   playbackManager.stopAll('new-message')
-  resetAssistantSpeechSurface('new-message')
+  resetAssistantSpeechSurface('new-message', { clearCaption: false })
 
   currentSession?.cancel('new-message')
   currentSession = null
@@ -866,7 +897,18 @@ chatHookCleanups.push(onBeforeSend(async () => {
 }))
 
 chatHookCleanups.push(onTokenLiteral(async (literal) => {
-  currentSession?.appendText(literal)
+  const text = lookFilterBuf + literal
+  lookFilterBuf = ''
+  // 尾巴上可能是半截标记（"[[LO…"），先攒着，等下一片来拼
+  const tail = text.match(/\[\[[^\]]*$/)
+  let safe = text
+  if (tail) {
+    safe = text.slice(0, text.length - tail[0].length)
+    lookFilterBuf = tail[0]
+  }
+  // 注意：不管削完是不是空，都要喂给会话（空串也要）——之前"空就不喂"会把
+  // 切句器的节奏打乱：该念的整句没被送出去，于是没语音、连字幕也不出。
+  currentSession?.appendText(safe.replace(LOOK_TAG_STRIP_RE, ''))
 }))
 
 chatHookCleanups.push(onTokenSpecial(async (special, context) => {
