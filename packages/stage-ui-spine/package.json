@@ -60,7 +60,8 @@
     "pinia": "catalog:",
     "pixi-spine": "catalog:",
     "vue": "catalog:",
-    "zod": "catalog:"
+    "zod": "catalog:",
+    "@pixi-spine/base": "3.1.2"
   },
   "devDependencies": {
     "vue-tsc": "catalog:"
