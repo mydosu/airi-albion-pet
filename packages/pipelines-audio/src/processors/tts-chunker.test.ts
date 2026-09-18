@@ -2,7 +2,7 @@
 
 import { describe, expect, it } from 'vitest'
 
-import { isProbablyAngleTag, processNarrative } from './tts-chunker'
+import { chunkTtsInput, isProbablyAngleTag, processNarrative } from './tts-chunker'
 
 describe('tTS Chunker Logic Cleanup', () => {
   describe('isProbablyAngleTag Heuristics', () => {
@@ -87,6 +87,30 @@ describe('tTS Chunker Logic Cleanup', () => {
     it('should support non-CJK Unicode letters as tag context', () => {
       expect(isProbablyAngleTag(4, 'café<laugh>')).toBe(true)
       expect(isProbablyAngleTag(6, 'привет<sigh>')).toBe(true)
+    })
+  })
+
+  describe('括号（心声）不从中间切断', () => {
+    async function collect(input: string) {
+      const out: string[] = []
+      for await (const c of chunkTtsInput(input))
+        out.push(c.text)
+      return out
+    }
+
+    it('长心声里带逗号句号，也不会切出没有开括号的半截', async () => {
+      const inner = '（我心里算了算，今天该做的事还有不少：先把茶盘收好，再把他昨天换下的衣服叠起来，回头看看灶上那锅汤要不要添水，剩下的时间就坐着等他回来）'
+      const chunks = await collect(inner + '您回来了。' + '外面起风了。')
+      expect(chunks.join('')).toContain('等他回来）')
+      for (const c of chunks) {
+        if (c.includes('）'))
+          expect(c).toContain('（')
+      }
+    })
+
+    it('括号闭合之后照常按标点切', async () => {
+      const chunks = await collect('（短心声）第一句。第二句。第三句。')
+      expect(chunks.length).toBeGreaterThan(1)
     })
   })
 })

@@ -12,8 +12,15 @@ export const TTS_SPECIAL_TOKEN = '\u2063'
 const regexpAnySingleDigit = /\d/
 
 const keptPunctuations = new Set('?？!！')
-const hardPunctuations = new Set('.。?？!！…⋯～~\n\t\r')
+const hardPunctuations = new Set('.。?？!！…⋯～~' + String.fromCharCode(10, 9, 13))
 const softPunctuations = new Set(',，、–—:：;；《》「」')
+
+// 心声/括号：括号没闭合前，标点不算切点 —— 否则心声会被拦腰切断，
+// 后半截没有开括号，桥认不出那是心声（症状：字幕断成两截、语音念出半句）。2026-09-18 实测。
+// 兜底：括号迟迟不闭合时不能无限攒着，攒够这么多字符仍然照切。
+const bracketOpeners = new Set('（(【[「『《')
+const bracketClosers = new Set('）)】]」』》')
+const inBracketRunawayChars = 240
 
 export interface TtsInputChunk {
   text: string
@@ -59,6 +66,7 @@ export async function* chunkTtsInput(
   const segmenter = new Intl.Segmenter(undefined, { granularity: 'word' }) // I love Intl.Segmenter
 
   let yieldCount = 0
+  let bracketDepth = 0
   let buffer = ''
   let chunk = ''
   let chunkWordsCount = 0
@@ -75,6 +83,14 @@ export async function* chunkTtsInput(
       continue
     }
 
+    // 括号深度（心声）：括号里不当切点，见文件头说明。
+    if (bracketOpeners.has(value)) {
+      bracketDepth += 1
+    }
+    else if (bracketClosers.has(value) && bracketDepth > 0) {
+      bracketDepth -= 1
+    }
+
     const flush = value === TTS_FLUSH_INSTRUCTION
     const special = value === TTS_SPECIAL_TOKEN
     const hard = hardPunctuations.has(value)
@@ -83,7 +99,9 @@ export async function* chunkTtsInput(
     let next: IteratorResult<string, void> | undefined
     let afterNext: IteratorResult<string, void> | undefined
 
-    if (flush || special || hard || soft) {
+    // 括号没闭合前不切；攒过头（inBracketRunawayChars）仍照切，避免无限攒着
+    const insideBracket = bracketDepth > 0 && (chunk.length + buffer.length) < inBracketRunawayChars
+    if ((flush || special || hard || soft) && !insideBracket) {
       switch (value) {
         case '.':
         case ',': {

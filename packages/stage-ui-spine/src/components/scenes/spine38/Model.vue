@@ -85,6 +85,10 @@ let spec: import('./author-engine').AuthorSpec = SPEC_B
 // 作者待机是分层的（`idle` / `idle#1` …，层号=轨道号），姿势要叠在它们之上 ⇒ 姿势轨 = 待机层数。
 // 在 syncIdle() 里按实际层数更新，这里先给个安全初值。
 let poseTrack = 1
+
+/** 表情停留多久后自动退回（对齐 Live2D 那套 applyEmotion 的 5 秒） */
+const EMOTION_HOLD_MS = 5000
+let emotionTimer: ReturnType<typeof setTimeout> | undefined
 const author = shallowRef<AuthorState>()
 const bubble = ref('')
 const menu = ref<{ title: string, choices: { text: string, next_mtn: string }[] }>()
@@ -796,6 +800,7 @@ function choose(index: number) {
 function teardownModel() {
   clearTimeout(bubbleTimer)
   clearTimeout(playTimer)
+  clearTimeout(emotionTimer)
   bubble.value = ''
   menu.value = undefined
   disposeControls?.()
@@ -964,6 +969,18 @@ function setEmotion(name: string, _intensity?: number) {
   st.vars['表情'] = face === 'normal' ? 0 : Number(face)
   syncIdle()
   console.info('[spine38] 换脸:', name, '→', face)
+
+  // 到点自己退回原表情 —— 和 Live2D 那套（applyEmotion 的 5 秒 poseTimer）对齐。
+  // 少了这一步，她说完一句话那副神情就永远留在脸上，再也回不到原来的样子。
+  clearTimeout(emotionTimer)
+  if (face !== 'normal') {
+    emotionTimer = setTimeout(() => {
+      if (author.value) {
+        author.value.vars['表情'] = 0
+        syncIdle()
+      }
+    }, EMOTION_HOLD_MS)
+  }
   return true
 }
 

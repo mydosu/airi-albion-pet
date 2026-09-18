@@ -334,7 +334,7 @@ const LOOK_LABEL: Record<string, string> = {
   mine: '阿尔比恩自己所在那台电脑的屏幕',
   cam: '这台电脑的摄像头·真实世界',
 }
-const LOOK_HINT = '（想先看点东西的话，就在回复里写 [[LOOK:his]] 指挥官那台电脑的屏幕、[[LOOK:mine]] 你自己所在那台、[[LOOK:cam]] 摄像头·真实世界——我会现取一张交给你，你接着看到的说；不想看就直接说你想说的。）'
+const LOOK_HINT = '（要看的话，就写 [[LOOK:his]] 看指挥官那台电脑的屏幕、[[LOOK:mine]] 看我自己所在那台、[[LOOK:cam]] 看这台电脑的摄像头·真实世界——画面会自己送到眼前；不想看就直接说想说的。）'
 
 function flag(key: string, fallback: boolean) {
   const raw = localStorage.getItem(key)
@@ -883,9 +883,11 @@ export function startAlbionPetInteractions() {
       }
       // 2026-09-17：不再由壳决定给她看什么 —— 要不要看、看哪一路，她自己定。
       // 想看她就在回复里写 <|LOOK:xxx|>，壳取来再回给她（见 deliverLook）。
-      const hint = `用一句自然的话主动和指挥官搭个话，别连着提问。${eyesEnabled() ? LOOK_HINT : ''}`
+      // 2026-09-18：不再写成"外面有人在吩咐她"——写成她自己的察觉，勾她自己开口。
+      // 主语用「我」：她读到就像自己想到的，不会误认成指挥官在提醒她。
+      const hint = `这是我自己心里冒出来的念头（不是谁在跟我说话）：屋里安静好一会儿了。想不想说点什么、要不要看一眼，都由我自己定。${eyesEnabled() ? LOOK_HINT : ''}`
       awaitingReply = true
-      await sendPoke(`（好一会儿没人说话了。${hint}）`)
+      await sendPoke(`（${hint}）`)
     })()
     waitUntil = Date.now() + nextWaitMs(silentStreak)
   }, 60_000)

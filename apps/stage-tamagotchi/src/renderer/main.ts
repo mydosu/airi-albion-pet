@@ -88,4 +88,10 @@ createApp(App)
   .mount('#app')
 
 // 阿尔比恩互动层：触摸反馈 / 情绪表情 / 主动说话
-startAlbionPetInteractions()
+// 只有 leader 窗口跑：这个函数里带"主动开口 / 取画面"这类**对外副作用**，
+// 而所有窗口共用同一个远端会话 —— 每个窗口各跑一份会各取一张画面（一次 [[LOOK]] 变三张，
+// 2026-09-18 实测：主窗 + 字幕窗 + minimal 三个实例各发一张，被单线程 VLM 排队成三张）。
+// ponytail: 只在启动时判一次 leader，不做换届跟随；多窗口换届是罕见路径，真遇到再补 onLeadershipChange。
+// 直接读 query，不走 resolveRendererWindowContext —— 它在缺参数时会 throw，挂在这里会连累渲染进程。
+if (new URLSearchParams(window.location.search).get('synced-leader') === 'true')
+  startAlbionPetInteractions()
